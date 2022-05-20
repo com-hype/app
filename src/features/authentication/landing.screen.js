@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   View,
@@ -12,15 +13,16 @@ import {
 const {height, width} = Dimensions.get('window');
 
 export default function LandingScreen() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require('../../../assets/img/landing-background.png')}
+        source={require('../../assets/img/landing-background.png')}
         style={styles.background}>
         <View style={styles.footerContainer}>
           <Text style={styles.title}>Bienvenue sur</Text>
           <Image
-            source={require('../../../assets/img/landing-logo.png')}
+            source={require('../../assets/img/landing-logo.png')}
             style={styles.logo}
           />
           <Text style={styles.subTitle}>
@@ -33,7 +35,9 @@ export default function LandingScreen() {
               <Text style={styles.loginText}>Connexion</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.registerContainer}>
+          <TouchableOpacity
+            style={styles.registerContainer}
+            onPress={() => navigation.navigate('Register')}>
             <View style={styles.register}>
               <Text style={styles.registerText}>Inscription</Text>
             </View>

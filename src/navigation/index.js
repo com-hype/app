@@ -3,8 +3,8 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import LandingScreen from '../features/authentication/landing/landing.screen';
-import RegisterScreen from '../features/authentication/register/register.screen';
+import LandingScreen from '../features/authentication/landing.screen';
+import RegisterScreen from '../features/authentication/register.screen';
 
 const Stack = createNativeStackNavigator();
 

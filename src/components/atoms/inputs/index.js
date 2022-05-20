@@ -1,4 +1,6 @@
-import {TextInput} from 'react-native';
+import React from 'react';
+
+import {TextInput, View} from 'react-native';
 import styles from './inputs.style';
 export function Input({
   style = {},
