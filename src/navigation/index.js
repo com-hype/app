@@ -8,7 +8,7 @@ import RegisterScreen from '../features/authentication/register.screen';
 
 const Stack = createNativeStackNavigator();
 
-const rootContainer = () => {
+const RootContainer = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -21,4 +21,4 @@ const rootContainer = () => {
     </NavigationContainer>
   );
 };
-export default rootContainer;
+export default RootContainer;

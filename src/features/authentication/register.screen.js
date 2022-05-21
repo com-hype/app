@@ -1,10 +1,17 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BlackButton, InputLine} from '../../components/atoms';
 import DatePicker from 'react-native-date-picker';
 import styles from './authentication.style';
 import AuthHeader from './components/header';
+import auth from '@react-native-firebase/auth';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+GoogleSignin.configure({
+  webClientId:
+    '332057449320-krifgbtn753r6j7752jvdv5bo2s30n83.apps.googleusercontent.com',
+});
 
 export default function RegisterScreen() {
   const [form, setForm] = useState({
@@ -35,9 +42,31 @@ export default function RegisterScreen() {
       date.getMonth() + 1 < 10
         ? `0${date.getMonth() + 1}`
         : date.getMonth() + 1;
-    // ajouter le 0 devant les mois et les jours
+
     const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
     return `${day} / ${month} / ${year}`;
+  };
+
+  const creerMonCompte = async () => {
+    //Firebase:
+    //Je crée mon compte
+
+    auth()
+      .createUserWithEmailAndPassword(form.email, form.password)
+      .then(() => {
+        console.log('User account created & signed in!');
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          console.log('That email address is already in use!');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          console.log('That email address is invalid!');
+        }
+
+        console.error(error);
+      });
   };
 
   return (
@@ -125,7 +154,10 @@ export default function RegisterScreen() {
         />
       </View>
       <View style={styles.submitContainer}>
-        <BlackButton size="large" style={styles.submit}>
+        <BlackButton
+          size="large"
+          style={styles.submit}
+          onPress={() => creerMonCompte()}>
           Inscription
         </BlackButton>
       </View>
