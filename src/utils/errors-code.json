@@ -1,0 +1,11 @@
+{
+  "errors": [
+    {
+      "code": "AN_ERROR_HAS_OCCURRED",
+      "message": {
+        "en": "An error has occurred",
+        "fr": "Une erreur est survenue"
+      }
+    }
+  ]
+}

@@ -1,24 +1,23 @@
-import * as React from 'react';
+import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import LandingScreen from '../features/authentication/landing.screen';
-import RegisterScreen from '../features/authentication/register.screen';
+import OnboardingScreen from '../features/welcome/onboarding/onboarding.screen';
 
 const Stack = createNativeStackNavigator();
 
-const RootContainer = () => {
+const WelcomeNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Home" component={LandingScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Home" component={OnboardingScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
 };
-export default RootContainer;
+
+export default WelcomeNavigation;

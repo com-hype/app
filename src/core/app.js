@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import configurePersistedStore from './app.store';
 
-import RootContainer from '../navigation';
+import RootContainer from '../navigations';
 
 const {store, persistor} = configurePersistedStore();
 const app = () => {

@@ -1,13 +1,21 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 
 const {height, width} = Dimensions.get('window');
 export default styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 60,
-    marginTop: 30,
+    height: 150,
+    position: 'absolute',
+    width: width,
+
+    zIndex: 1,
+    marginTop: Platform.OS === 'ios' ? 30 : 0,
   },
+  scrollview: {
+    marginTop: Platform.OS === 'ios' ? 180 : 100,
+  },
+
   disabled: {
     opacity: 0.3,
   },
@@ -38,5 +46,15 @@ export default styles = StyleSheet.create({
   submitContainer: {
     marginHorizontal: 24,
     marginTop: 80,
+  },
+
+  confirmationContainer: {
+    marginTop: 100,
+    alignItems: 'center',
+  },
+
+  confirmationIcon: {
+    marginTop: 40,
+    marginBottom: 80,
   },
 });

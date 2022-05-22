@@ -1,30 +1,35 @@
 import {createSelector, createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  vins: [],
-  name: 'toto',
-  vendeurs: [],
+  header: {status: 'nothing', connected: false},
+  data: null,
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    updateVins: (state, action) => {
-      state.vins = action.payload;
+    updateHeader: (state, action) => {
+      state.header = action.payload;
     },
-    updateVendeurs: (state, action) => {
-      state.vendeurs = action.paylad;
+    updateUser: (state, action) => {
+      state.data = action.paylad;
     },
-    setName: (state, action) => {
-      state.name = action.payload;
+    setUser: (state, action) => {
+      state.header = action.payload.header;
+      state.data = action.payload.user;
+    },
+    deleteUser: (state, action) => {
+      state.header = {status: 'done', connected: false};
+      state.data = null;
     },
   },
 });
 
-export const {updateVins, updateVendeurs, setName} = userSlice.actions;
-export const selectSelf = state => state[userSlice.name];
-export const selectVins = createSelector(selectSelf, state => state.vins);
-export const selectName = createSelector(selectSelf, state => state.name);
+export const {updateHeader, updateUser, setUser, deleteUser} =
+  userSlice.actions;
+export const selectUser = state => state.user.data;
+export const selectHeader = state => state.user.header;
+export const selectAll = state => state.user;
 
 export default userSlice.reducer;
