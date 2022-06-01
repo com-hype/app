@@ -17,6 +17,24 @@ export default styles = StyleSheet.create({
   textSolid: {
     color: '#fff',
   },
+  containerSolid: {
+    backgroundColor: '#000',
+  },
+  textSolid: {
+    color: '#fff',
+  },
+
+  containerBorder: {
+    borderWidth: 1,
+    borderColor: '#000',
+  },
+  textBorder: {
+    color: '#000',
+  },
+
+  disabled: {
+    opacity: 0.5,
+  },
 
   // size
   small: {

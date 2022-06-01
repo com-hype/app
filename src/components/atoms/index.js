@@ -3,12 +3,14 @@
  */
 export {Button} from './buttons';
 export {BlackButton} from './buttons/BlackButton';
+export {BlackBorderButton} from './buttons/BlackBorderButton';
 
 /**
  * Inputs component
  */
 export {Input} from './inputs';
 export {InputLine} from './inputs/InputLine';
+export {InputLineWithSubmitBtn} from './inputs/InputLineWithSubmitBtn';
 
 /**
  * Labels component

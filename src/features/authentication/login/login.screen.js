@@ -1,21 +1,15 @@
 import React, {useState} from 'react';
 import {View} from 'react-native';
+import {getUniqueId} from 'react-native-device-info';
 
 import {BlackButton, ErrorLabel, InputLine} from '../../../components/atoms';
 import styles from '../authentication.style';
 import AuthHeader from '../_components/header';
-import auth from '@react-native-firebase/auth';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import Container from '../_components/container';
 import {sendLogin} from './login.services';
 import {useDispatch} from 'react-redux';
-import {setUser} from '../user.redux';
+import {login, setUser} from '../user.redux';
 import Loading from '../_components/loading';
-
-GoogleSignin.configure({
-  webClientId:
-    '332057449320-krifgbtn753r6j7752jvdv5bo2s30n83.apps.googleusercontent.com',
-});
 
 export default function LoginScreen() {
   const dispatch = useDispatch();
@@ -25,46 +19,17 @@ export default function LoginScreen() {
   const [form, setForm] = useState({
     email: '',
     password: '',
+    device_name: getUniqueId(),
   });
 
   const handleSubmit = async () => {
-    try {
-      setError(null);
-      setLoading(true);
+    setError(null);
+    setLoading(true);
 
-      const firebase_res = await auth().signInWithEmailAndPassword(
-        form.email,
-        form.password,
-      );
-      if (!firebase_res.user) return;
-      const res = await sendLogin({
-        email: firebase_res.user.email,
-        uid: firebase_res.user.uid,
-      });
+    const {payload} = await dispatch(login(form));
 
-      setLoading(false);
-      if (res.status === 'error') {
-        setError('Une erreur est survenue');
-        return;
-      }
-      dispatch(
-        setUser({
-          header: {
-            status: 'done',
-            connected: true,
-          },
-          user: res.response.user,
-        }),
-      );
-    } catch (error) {
-      if (
-        error.code === 'auth/wrong-password' ||
-        error.code === 'auth/user-not-found'
-      ) {
-        setError('Mot de passe incorrect');
-      } else {
-        setError('Une erreur est survenue');
-      }
+    if (payload.status === 'error') {
+      setError(payload.response);
       setLoading(false);
     }
   };
@@ -79,7 +44,9 @@ export default function LoginScreen() {
             placeholder="Email"
             value={form.email}
             keyboardType="email-address"
-            onChangeText={text => setForm({...form, email: text})}
+            onChangeText={text =>
+              setForm({...form, email: text.toLowerCase().replace(/\s/g, '')})
+            }
           />
           <InputLine
             placeholderTextColor="#B4AEB9"

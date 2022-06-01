@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "332057449320-fad0iv004aro4fkti5f9i0rmepsva4nu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "fr.dantindurand.comhype_app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
           "client_id": "332057449320-krifgbtn753r6j7752jvdv5bo2s30n83.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "332057449320-krifgbtn753r6j7752jvdv5bo2s30n83.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "332057449320-boq092thi0g2vots1gpglrv77d1fd80p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.dantindurand.comhype-app"
+              }
             }
           ]
         }

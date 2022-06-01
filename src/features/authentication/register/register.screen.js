@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {View, Alert} from 'react-native';
 
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {getUniqueId} from 'react-native-device-info';
 
-import {sendregister} from './register.services';
 import styles from '../authentication.style';
 import validateEmail from '../authentication.helpers';
 
@@ -13,11 +12,7 @@ import Loading from '../_components/loading';
 import RegisterForm from './_components/form';
 import Container from '../_components/container';
 import {useNavigation} from '@react-navigation/native';
-
-// GoogleSignin.configure({
-//   webClientId:
-//     '332057449320-krifgbtn753r6j7752jvdv5bo2s30n83.apps.googleusercontent.com',
-// });
+import {sendRegister} from '../authentication.services';
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
@@ -25,26 +20,27 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    pseudo: '',
-    birthDate: new Date(
+    first_name: '',
+    last_name: '',
+    username: '',
+    birthdate: new Date(
       new Date().getFullYear() - 18,
       new Date().getMonth(),
       new Date().getDate(),
     ),
-    birthDateDirty: false,
+    birthdate_dirty: false,
     email: '',
     password: '',
+    device_name: getUniqueId(),
   });
 
   useEffect(() => {
     setIsValid(
-      form.firstName.length > 0 &&
-        form.lastName.length > 0 &&
-        form.pseudo.length > 0 &&
-        form.birthDateDirty &&
-        form.birthDateDirty &&
+      form.first_name.length > 0 &&
+        form.last_name.length > 0 &&
+        form.username.length > 0 &&
+        form.birthdate_dirty &&
+        form.birthdate_dirty &&
         validateEmail(form.email) &&
         form.password.length > 6,
     );
@@ -59,19 +55,16 @@ export default function RegisterScreen() {
       );
       return;
     }
-    try {
-      setError(null);
-      setLoading(true);
-      const res = await sendregister(form);
-      if (res.status === 'error') {
-        setError(res.response);
-      } else {
-        navigation.navigate('RegisterConfirmation');
-      }
-    } catch (error) {
-      console.log(error);
+
+    setError(null);
+    setLoading(true);
+    const res = await sendRegister(form);
+    if (res.status === 'error') {
+      setError(res.response);
+      setLoading(false);
+    } else {
+      navigation.navigate('RegisterConfirmation');
     }
-    setLoading(false);
   };
 
   return (

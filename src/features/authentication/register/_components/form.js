@@ -24,40 +24,40 @@ export default function RegisterForm({form = {}, setForm = () => {}}) {
       <InputLine
         placeholderTextColor="#B4AEB9"
         placeholder="Prénom*"
-        value={form.firstName}
+        value={form.first_name}
         keyboardType="default"
-        onChangeText={text => setForm({...form, firstName: text})}
+        onChangeText={text => setForm({...form, first_name: text})}
         autoFocus={true}
       />
       <InputLine
         placeholderTextColor="#B4AEB9"
         placeholder="Nom*"
-        value={form.lastName}
+        value={form.last_name}
         keyboardType="default"
-        onChangeText={text => setForm({...form, lastName: text})}
+        onChangeText={text => setForm({...form, last_name: text})}
       />
       <InputLine
         placeholderTextColor="#B4AEB9"
         placeholder="Nom d'affichage*"
-        value={form.pseudo}
+        value={form.username}
         keyboardType="default"
-        onChangeText={text => setForm({...form, pseudo: text})}
+        onChangeText={text => setForm({...form, username: text})}
       />
 
       <TouchableOpacity
         onPress={() => {
           setOpen(true);
-          setForm({...form, birthDateDirty: true});
+          setForm({...form, birthdate_dirty: true});
         }}
         style={styles.inputDate}>
         <Text
           style={
-            form.birthDateDirty
+            form.birthdate_dirty
               ? styles.inputTextDate
               : styles.inputTextDatePlaceholder
           }>
-          {form.birthDateDirty
-            ? dateToString(form.birthDate)
+          {form.birthdate_dirty
+            ? dateToString(form.birthdate)
             : 'Date de naissance*'}
         </Text>
       </TouchableOpacity>
@@ -65,10 +65,10 @@ export default function RegisterForm({form = {}, setForm = () => {}}) {
         modal
         open={open}
         mode="date"
-        date={form.birthDate}
+        date={form.birthdate}
         onConfirm={date => {
           setOpen(false);
-          setForm({...form, birthDate: date});
+          setForm({...form, birthdate: date});
         }}
         onCancel={() => {
           setOpen(false);

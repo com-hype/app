@@ -5,20 +5,18 @@ import {Button} from '.';
 
 import styles from './buttons.style';
 
-export function BlackButton({
+export function BlackBorderButton({
   children,
   onPress,
   style,
   textStyle,
-  isDisabled,
   ...props
 }) {
   return (
     <Button
-      isDisabled={isDisabled}
       onPress={onPress}
-      style={[styles.containerSolid, isDisabled && styles.disabled, style]}
-      textStyle={[styles.textSolid, textStyle]}
+      style={[styles.containerBorder, style]}
+      textStyle={[styles.textBorder, textStyle]}
       {...props}>
       {children}
     </Button>

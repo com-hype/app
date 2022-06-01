@@ -6,6 +6,13 @@
         "en": "An error has occurred",
         "fr": "Une erreur est survenue"
       }
+    },
+    {
+      "code": "WRONG_CREDENTIALS",
+      "message": {
+        "en": "Wrong credentials",
+        "fr": "Mauvais identifiants ou mot de passe"
+      }
     }
   ]
 }

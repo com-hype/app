@@ -9,6 +9,7 @@ export function Button({
   onPress,
   style,
   textStyle,
+  isDisabled,
   size = 'medium',
   ...props
 }) {

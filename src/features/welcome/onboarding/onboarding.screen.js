@@ -1,18 +1,35 @@
-import React from 'react';
-import {Text, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {StyleSheet, View, Dimensions} from 'react-native';
+import steps from './onboarding.utils';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {useDispatch, useSelector} from 'react-redux';
-import {deleteUser, selectUser} from '../../authentication/user.redux';
+import {BlackBorderButton, BlackButton, Title} from '../../../components/atoms';
+import OnboardingStep from './_components/onboardingStep';
+
+const {height} = Dimensions.get('window');
 
 export default function OnboardingScreen() {
-  const user = useSelector(selectUser);
-  const dispatch = useDispatch();
+  const {navigate} = useNavigation();
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      navigate('UserType');
+    }
+  };
+
   return (
-    <SafeAreaView>
-      <Text>Bienvenue {user.pseudo}</Text>
-      <TouchableOpacity onPress={() => dispatch(deleteUser())}>
-        <Text>Déconnxion</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+    <View>
+      <OnboardingStep
+        step={steps[currentStep]}
+        currentStep={currentStep}
+        maxStep={steps.length}
+        onNext={handleNext}
+      />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({});
