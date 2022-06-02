@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import {getErrorMessage} from './errors';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+axios.defaults.baseURL = 'https://comhype.herokuapp.com/api';
 
 export const axiosRequest = async axiosParams => {
   try {
@@ -10,7 +10,7 @@ export const axiosRequest = async axiosParams => {
 
     return {status: 'done', response: response.data};
   } catch (error) {
-    console.log(error.response.data);
+    console.log('error -> ', error);
     const code =
       error.response && error.response.data
         ? error.response.data.error

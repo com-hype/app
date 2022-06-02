@@ -49,6 +49,7 @@ export const userSlice = createSlice({
 
   extraReducers: builder => {
     builder.addCase(login.fulfilled, (state, action) => {
+      console.log('login ->', action);
       if (action.payload.status === 'done') {
         state.header.status = 'done';
         state.header.connected = true;
