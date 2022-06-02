@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {Input} from '.';
 export function InputLine({
   style = {},
@@ -10,10 +12,10 @@ export function InputLine({
   return (
     <Input
       style={[styles.container, style]}
-      onChangeText={onPress}
-      value={children}
-      placeholder={children}
-      secureTextEntry={false}
+      onChangeText={onChangeText}
+      value={value}
+      placeholder={placeholder}
+      secureTextEntry={secureTextEntry}
       {...props}
     />
   );

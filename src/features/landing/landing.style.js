@@ -1,48 +1,6 @@
-import React from 'react';
-import {
-  View,
-  ImageBackground,
-  Image,
-  Text,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 const {height, width} = Dimensions.get('window');
-
-export default function LandingScreen() {
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../../../assets/img/landing-background.png')}
-        style={styles.background}>
-        <View style={styles.footerContainer}>
-          <Text style={styles.title}>Bienvenue sur</Text>
-          <Image
-            source={require('../../../assets/img/landing-logo.png')}
-            style={styles.logo}
-          />
-          <Text style={styles.subTitle}>
-            La meilleure manière de donner de l'intérêt aux projets qui en
-            valent la peine.
-          </Text>
-
-          <TouchableOpacity style={styles.loginContainer}>
-            <View style={styles.login}>
-              <Text style={styles.loginText}>Connexion</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.registerContainer}>
-            <View style={styles.register}>
-              <Text style={styles.registerText}>Inscription</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </ImageBackground>
-    </View>
-  );
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -118,3 +76,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+export default styles;
