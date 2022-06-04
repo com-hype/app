@@ -1,11 +1,9 @@
-import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {StyleSheet, View, Dimensions} from 'react-native';
-import steps from './onboarding.utils';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {BlackBorderButton, BlackButton, Title} from '../../../components/atoms';
-import OnboardingStep from './_components/onboardingStep';
+import {StyleSheet, Dimensions, View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
+import steps from './onboarding.utils';
+import OnboardingStep from './_components/onboardingStep';
 const {height} = Dimensions.get('window');
 
 export default function OnboardingScreen() {
@@ -21,7 +19,11 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <View>
+    <View
+      animation="slideInRight"
+      easing="ease-in"
+      duration={200}
+      useNativeDriver={true}>
       <OnboardingStep
         step={steps[currentStep]}
         currentStep={currentStep}

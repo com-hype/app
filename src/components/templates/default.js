@@ -5,9 +5,8 @@ import {
   TouchableWithoutFeedback,
   Platform,
   Keyboard,
-  View,
 } from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import * as Animatable from 'react-native-animatable';
 
 export function DefaultTemplate({children, style = {}, ...props}) {
   return (
@@ -16,7 +15,9 @@ export function DefaultTemplate({children, style = {}, ...props}) {
       {...props}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.inner}>{children}</View>
+        <Animatable.View animation="fadeIn" duration={500} style={styles.inner}>
+          {children}
+        </Animatable.View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );

@@ -17,7 +17,7 @@ import {
 } from '../../../components/atoms';
 import {DefaultTemplate} from '../../../components/templates';
 import {useDispatch} from 'react-redux';
-import {finishRegistration} from '../../authentication/user.redux';
+import {discovererRegistration} from '../../authentication/user.redux';
 const {height, width} = Dimensions.get('window');
 export default function UserHobbiesScreen() {
   const [hobbies, setHobbies] = useState([]);
@@ -58,9 +58,8 @@ export default function UserHobbiesScreen() {
     formatedHobbies = formatedHobbies.substring(1, formatedHobbies.length - 1);
 
     await dispatch(
-      finishRegistration({
-        type: 'discoverer',
-        hobbies: formatedHobbies,
+      discovererRegistration({
+        interests: formatedHobbies,
       }),
     );
   };

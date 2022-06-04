@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'transparent',
-    marginTop: 50,
+    marginTop: 30,
+  },
+  touchable: {
+    borderRadius: 30,
+    overflow: 'hidden',
   },
 });

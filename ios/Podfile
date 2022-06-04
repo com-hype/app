@@ -6,6 +6,9 @@ platform :ios, '11.0'
 target 'comhype_app' do
   config = use_native_modules!
 
+  # Pods for icon_font
+
+
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods
@@ -14,6 +17,7 @@ target 'comhype_app' do
   
   # Pods for test_google_signin
   pod 'GoogleSignIn', '~> 6.1.0'
+
 
   target 'comhype_appTests' do
     inherit! :complete

@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {sendFinishRegistration} from '../welcome/hobbies/hobbies.services';
-import {sendLogin, fetchUser} from './authentication.services';
+import {sendDiscovererRegistration} from '../welcome/hobbies/hobbies.services';
+import {sendLogin, fetchUser, fetchLogout} from './authentication.services';
 
 const initialState = {
   header: {status: 'nothing', connected: false},
@@ -18,11 +18,20 @@ export const checkToken = createAsyncThunk('user/me', async token => {
   return response;
 });
 
-export const finishRegistration = createAsyncThunk(
-  'user/register/finish',
+export const discovererRegistration = createAsyncThunk(
+  'user/register/discoverer',
   async (payload, {getState}) => {
     const {token} = getState().user;
-    const response = await sendFinishRegistration(payload, token);
+    const response = await sendDiscovererRegistration(payload, token);
+    return response;
+  },
+);
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (arg, {getState}) => {
+    const {token} = getState().user;
+    const response = await fetchLogout(token);
     return response;
   },
 );
@@ -49,7 +58,6 @@ export const userSlice = createSlice({
 
   extraReducers: builder => {
     builder.addCase(login.fulfilled, (state, action) => {
-      console.log('login ->', action);
       if (action.payload.status === 'done') {
         state.header.status = 'done';
         state.header.connected = true;
@@ -70,6 +78,9 @@ export const userSlice = createSlice({
         state.token = null;
       }
     });
+    builder.addCase(checkToken.pending, (state, action) => {
+      state.header.status = 'pending';
+    });
     builder.addCase(checkToken.rejected, (state, action) => {
       state.header.status = 'done';
       state.header.connected = false;
@@ -77,14 +88,24 @@ export const userSlice = createSlice({
       state.token = null;
     });
 
-    builder.addCase(finishRegistration.fulfilled, (state, action) => {
-      state.header.status = 'done';
-      console.log(action.payload.response);
-      state.data = action.payload.response.user;
+    builder.addCase(discovererRegistration.fulfilled, (state, action) => {
+      if (action.payload.status === 'done') {
+        state.header.status = 'done';
+        state.data = action.payload.response.user;
+      }
     });
 
-    builder.addCase(finishRegistration.rejected, (state, action) => {
+    builder.addCase(logout.pending, (state, action) => {
+      state.header.status = 'pending';
+    });
+    builder.addCase(logout.rejected, (state, action) => {
       state.header.status = 'done';
+    });
+    builder.addCase(logout.fulfilled, (state, action) => {
+      state.header.status = 'done';
+      state.header.connected = false;
+      state.data = null;
+      state.token = null;
     });
   },
 });

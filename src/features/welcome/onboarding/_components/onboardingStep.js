@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {BlackButton, Paragraph, Title} from '../../../../components/atoms';
 import StepIndicator from './stepIndicator';
+import * as Animatable from 'react-native-animatable';
 
 const {height} = Dimensions.get('window');
 
@@ -19,7 +20,11 @@ export default function OnboardingStep({
   onNext = () => {},
 }) {
   return (
-    <View>
+    <Animatable.View
+      animation="slideInRight"
+      easing="ease-in"
+      duration={200}
+      useNativeDriver={true}>
       <ImageBackground source={step.image} style={styles.image}>
         <StepIndicator currentStep={currentStep} totalSteps={maxStep} />
       </ImageBackground>
@@ -35,7 +40,7 @@ export default function OnboardingStep({
           Suivant
         </BlackButton>
       </View>
-    </View>
+    </Animatable.View>
   );
 }
 

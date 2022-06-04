@@ -2,7 +2,13 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {View, Animated, PanResponder, ViewPropTypes} from 'react-native';
+import {
+  View,
+  Animated,
+  PanResponder,
+  ViewPropTypes,
+  TouchableHighlight,
+} from 'react-native';
 import Defaults from './Defaults';
 import clamp from 'clamp';
 import {styles} from './Styles';
@@ -72,6 +78,7 @@ export default class SwipeCards extends Component {
       },
 
       onPanResponderGrant: (e, gestureState) => {
+        this.props.onPressIn();
         this.state.pan.setOffset({
           x: this.state.pan.x._value,
           y: this.state.pan.y._value,
@@ -94,6 +101,7 @@ export default class SwipeCards extends Component {
       ),
 
       onPanResponderRelease: async (e, {vx, vy, dx, dy}) => {
+        this.props.onPressOut();
         if (this.props.onDragRelease) this.props.onDragRelease();
         this.state.pan.flattenOffset();
         let velocity;
@@ -435,6 +443,7 @@ export default class SwipeCards extends Component {
 
       return (
         <Animated.View
+          onStartShouldSetResponder={() => console.log('You click by View')}
           key={
             this.props.keyExtractor ? this.props.keyExtractor(card) : String(i)
           }
@@ -599,6 +608,8 @@ SwipeCards.propTypes = {
     nope: actionShape,
     maybe: actionShape,
   }),
+  onPressIn: PropTypes.func,
+  onPressOut: PropTypes.func,
   onClickHandler: PropTypes.func,
   onDragStart: PropTypes.func,
   onDragRelease: PropTypes.func,

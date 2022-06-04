@@ -6,11 +6,19 @@ import {
   View,
   Dimensions,
   ImageBackground,
+  Platform,
+  RefreshControl,
+  ScrollView,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import SwipeCards from './_components/swipeSystem/SwipeCards';
 import {BlackButton, Paragraph, Title} from '../../components/atoms';
 import ProjectCard from './_components/projectCard';
+import {fetchProjects} from './projects.services';
+import {useSelector} from 'react-redux';
+import {selectToken} from '../authentication/user.redux';
+import Loading from '../authentication/_components/loading';
+import {useNavigation} from '@react-navigation/native';
 
 const {height, width} = Dimensions.get('window');
 
@@ -23,72 +31,75 @@ function StatusCard({text}) {
 }
 
 export default function ProjectsScreen() {
-  const [cards, setCards] = useState();
-  const [currentCard, setCurrentCard] = useState();
+  const {navigate} = useNavigation();
+  const [cards, setCards] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
+  const [currentCard, setCurrentCard] = useState({
+    id: 0,
+    name: '',
+    title: '',
+    description: '',
+    avatar: 'https://picsum.photos/80',
+  });
+  const token = useSelector(selectToken);
 
-  // replace with real remote data fetching
+  const getProjects = async () => {
+    setLoading(true);
+    const projects = await fetchProjects(token);
+    if (projects.status === 'done') {
+      setCards(projects.response);
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    setCards([
-      {text: 'Tomato', backgroundColor: 'red'},
-      {text: 'Aubergine', backgroundColor: 'purple'},
-      {text: 'Courgette', backgroundColor: 'green'},
-      {text: 'Blueberry', backgroundColor: 'blue'},
-      {text: 'Umm...', backgroundColor: 'cyan'},
-      {text: 'orange', backgroundColor: 'orange'},
-      {text: 'Tomato', backgroundColor: 'red'},
-      {text: 'Aubergine', backgroundColor: 'purple'},
-      {text: 'Courgette', backgroundColor: 'green'},
-      {text: 'Blueberry', backgroundColor: 'blue'},
-      {text: 'Umm...', backgroundColor: 'cyan'},
-      {text: 'orange', backgroundColor: 'orange'},
-      {text: 'Tomato', backgroundColor: 'red'},
-      {text: 'Aubergine', backgroundColor: 'purple'},
-      {text: 'Courgette', backgroundColor: 'green'},
-      {text: 'Blueberry', backgroundColor: 'blue'},
-      {text: 'Umm...', backgroundColor: 'cyan'},
-      {text: 'orange', backgroundColor: 'orange'},
-    ]);
+    getProjects();
+    return () => {
+      setCards({});
+    };
   }, []);
 
   function handleYup(card) {
     console.log(`Yup for ${card.text}`);
-    return true; // return false if you wish to cancel the action
+    return true;
   }
   function handleNope(card) {
     console.log(`Nope for ${card.text}`);
     return true;
   }
-  function handleMaybe(card) {
-    console.log(`Maybe for ${card.text}`);
-    return true;
-  }
-
-  function handleOnclick(card) {
-    console.log(`Clicked on ${card.text}`);
-  }
 
   return (
-    <React.Fragment>
+    <ScrollView
+      scrollEnabled={scrollEnabled}
+      refreshControl={
+        <RefreshControl refreshing={loading} onRefresh={getProjects} />
+      }>
       <View style={styles.background}></View>
       <SafeAreaView style={styles.container}>
         {cards ? (
           <View style={styles.projectContainer}>
-            <Title style={styles.name}>BELORDER</Title>
+            <Title style={styles.name}>{currentCard.name}</Title>
             <SwipeCards
+              onPressIn={() => setScrollEnabled(false)}
+              onPressOut={() => setScrollEnabled(true)}
               cards={cards}
               renderCard={cardData => (
                 <ProjectCard
+                  key={cardData.id}
                   data={cardData}
                   index={cards.indexOf(cardData)}
                   isCurrent={currentCard === cardData}
                 />
               )}
               keyExtractor={cardData => {
-                return String(cardData.text);
+                return String(cardData.id);
               }}
               renderNoMoreCards={() => (
                 <ProjectCard
-                  data={{text: 'Plus aucun projet', backgroundColor: 'orange'}}
+                  data={{text: 'Plus aucun projet', backgroundColor: '#E8E4E4'}}
                   index={0}
                   isCurrent={true}
                 />
@@ -107,19 +118,29 @@ export default function ProjectsScreen() {
                   onAction: handleYup,
                 },
               }}
-              currentCard={card => setCurrentCard(cards[card])}
+              currentCard={card => {
+                if (cards[card]) setCurrentCard(cards[card]);
+              }}
             />
-            <ImageBackground style={styles.logo}></ImageBackground>
-            <Paragraph style={styles.title}>
-              Plateforme de marketing local
+            <ImageBackground
+              style={styles.logo}
+              source={{uri: currentCard.avatar}}></ImageBackground>
+            <Paragraph
+              style={styles.title}
+              numberOfLines={1}
+              ellipsizeMode="head">
+              {currentCard.title}
             </Paragraph>
-            <Paragraph style={styles.description}>
-              De nouvelles opportunités pour les agences, régies et annonceurs
-              pour repenser et optimiser leur communication locale.
+            <Paragraph
+              style={styles.description}
+              numberOfLines={3}
+              ellipsizeMode="head">
+              {currentCard.description}
             </Paragraph>
             <BlackButton
               size="large"
               textStyle={styles.btnText}
+              onPress={() => navigate('ProjectDetails', {project: currentCard})}
               style={styles.btn}>
               Voir le détail
             </BlackButton>
@@ -128,7 +149,7 @@ export default function ProjectsScreen() {
           <StatusCard text="Loading..." />
         )}
       </SafeAreaView>
-    </React.Fragment>
+    </ScrollView>
   );
 }
 
@@ -144,7 +165,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     maxHeight: height - 100,
     paddingHorizontal: 24,
-    height: height,
+    height: Platform.OS === 'ios' ? height - 150 : height - 50,
   },
   name: {
     color: '#fff',
@@ -156,6 +177,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     backgroundColor: '#000',
     marginTop: 20,
+    overflow: 'hidden',
   },
   title: {
     color: '#767676',

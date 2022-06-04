@@ -31,3 +31,13 @@ export async function fetchUser(token) {
     },
   });
 }
+
+export async function fetchLogout(token) {
+  return axiosRequest({
+    method: 'DELETE',
+    url: '/auth/logout',
+    headers: {
+      Authorization: formatLocalToken(token),
+    },
+  });
+}

@@ -13,10 +13,11 @@ const RootContainer = () => {
 
   useEffect(() => {
     if (user.token) {
-      console.log(user);
       dispatch(checkToken(user.token));
     }
   }, []);
+
+  if (user.header.status === 'pending') return <Loading />;
 
   if (!user.header.connected) {
     return <AuthNavigation />;
