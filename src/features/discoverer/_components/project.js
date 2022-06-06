@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   View,
@@ -18,6 +19,8 @@ export default function Projects({
   changeProject = () => {},
   onSwipe = () => {},
 }) {
+  const {navigate} = useNavigation();
+
   function handleYup(project) {
     onSwipe(project.id, 'like');
     return true;

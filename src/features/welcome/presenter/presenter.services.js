@@ -1,10 +1,21 @@
 import {axiosRequest} from '../../../helpers/axios';
 import formatLocalToken from '../../../helpers/formatLocalToken';
 
-export async function sendDiscovererRegistration(payload, token) {
+export async function sendPresenterRegistration(payload, token) {
   return axiosRequest({
     method: 'POST',
-    url: '/auth/register/discoverer',
+    url: '/auth/register/presenter',
+    data: payload,
+    headers: {
+      Authorization: formatLocalToken(token),
+    },
+  });
+}
+
+export async function sendProjectImage(payload, token) {
+  return axiosRequest({
+    method: 'POST',
+    url: '/upload/image',
     data: payload,
     headers: {
       Authorization: formatLocalToken(token),

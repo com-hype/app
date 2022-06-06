@@ -16,7 +16,7 @@ import {
   Title,
 } from '../../../../components/atoms';
 import {DefaultTemplate} from '../../../../components/templates';
-import {launchImageLibrary} from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const {width} = Dimensions.get('window');
 
@@ -27,14 +27,20 @@ export default function ProjectNameScreen({route}) {
   const projectProps = route.params;
 
   const handleChoosePhoto = async () => {
-    const result = await launchImageLibrary({
-      mediaType: 'photo',
-      maxHeight: 100,
-      maxWidth: 100,
-    });
+    try {
+      const result = await ImagePicker.openPicker({
+        width: 100,
+        height: 100,
+        cropping: true,
+        includeBase64: true,
+      });
 
-    if (result.assets) {
-      setPhoto(result.assets[0]);
+      if (result.path) {
+        console.log(result);
+        setPhoto(result);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -46,11 +52,11 @@ export default function ProjectNameScreen({route}) {
       return;
     }
 
-    console.log(projectProps);
-    // navigate('ProjectName', {
-    //   categories,
-    //   type: selected,
-    // });
+    navigate('ProjectDescription', {
+      ...projectProps,
+      name,
+      avatar: photo,
+    });
   };
 
   return (
@@ -64,7 +70,9 @@ export default function ProjectNameScreen({route}) {
             <ImageBackground
               resizeMode="cover"
               style={styles.imageContainer}
-              source={{uri: photo ? photo.uri : null}}>
+              source={{
+                uri: photo ? `data:${photo.mime};base64,${photo.data}` : null,
+              }}>
               {photo && <View style={styles.backgroundIcon} />}
               <Image
                 source={
