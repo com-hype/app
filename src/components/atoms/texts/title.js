@@ -1,7 +1,11 @@
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
-export function Title({children, style}) {
-  return <Text style={[styles.title, style]}>{children}</Text>;
+export function Title({children, style, ...props}) {
+  return (
+    <Text style={[styles.title, style]} {...props}>
+      {children}
+    </Text>
+  );
 }
 
 const styles = StyleSheet.create({

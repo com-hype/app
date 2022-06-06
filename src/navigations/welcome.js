@@ -6,6 +6,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import OnboardingScreen from '../features/welcome/onboarding/onboarding.screen';
 import UserTypeScreen from '../features/welcome/user-type/user-type.screen';
 import UserHobbiesScreen from '../features/welcome/hobbies/hobbies.screen';
+import ProjectCategoriesScreen from '../features/welcome/presenter/categories/categories.screen';
+import ProjectWishScreen from '../features/welcome/presenter/wish/wish.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +21,11 @@ const WelcomeNavigation = () => {
         <Stack.Screen name="Home" component={OnboardingScreen} />
         <Stack.Screen name="UserType" component={UserTypeScreen} />
         <Stack.Screen name="UserHobbies" component={UserHobbiesScreen} />
+        <Stack.Screen
+          name="ProjectCategories"
+          component={ProjectCategoriesScreen}
+        />
+        <Stack.Screen name="ProjectWish" component={ProjectWishScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

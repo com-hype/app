@@ -26,12 +26,27 @@ export function Button({
     }
   };
 
+  const getSizeStyleText = size => {
+    switch (size) {
+      case 'small':
+        return styles.textsmall;
+      case 'medium':
+        return styles.textmedium;
+      case 'large':
+        return styles.textlarge;
+      default:
+        return styles.textmedium;
+    }
+  };
+
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[styles.container, getSizeStyle(size), style]}
       {...props}>
-      <Text style={[styles.text, textStyle]}>{children}</Text>
+      <Text style={[styles.text, getSizeStyleText(size), textStyle]}>
+        {children}
+      </Text>
     </TouchableOpacity>
   );
 }

@@ -18,7 +18,7 @@ export default function UserTypeScreen() {
           <BlackButton
             style={styles.btn}
             size="large"
-            onPress={() => navigate('OnBoardingScreen')}>
+            onPress={() => navigate('ProjectCategories')}>
             Présenter votre projet
           </BlackButton>
           <BlackBorderButton

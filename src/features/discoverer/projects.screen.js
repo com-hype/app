@@ -1,26 +1,16 @@
 import {transform} from '@babel/core';
 import React, {useEffect, useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Dimensions,
-  ImageBackground,
-  Platform,
-  RefreshControl,
-  ScrollView,
-} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, StatusBar} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import SwipeCards from './_components/swipeSystem/SwipeCards';
-import {BlackButton, Paragraph, Title} from '../../components/atoms';
-import ProjectCard from './_components/projectCard';
-import {fetchProjects} from './projects.services';
+import {fetchProjects, sendLike} from './projects.services';
 import {useSelector} from 'react-redux';
 import {selectToken} from '../authentication/user.redux';
 import Loading from '../authentication/_components/loading';
 import {useNavigation} from '@react-navigation/native';
+import Projects from './_components/project';
+import NoProjects from './noProjects';
 
-const {height, width} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 
 function StatusCard({text}) {
   return (
@@ -32,10 +22,8 @@ function StatusCard({text}) {
 
 export default function ProjectsScreen() {
   const {navigate} = useNavigation();
-  const [cards, setCards] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [scrollEnabled, setScrollEnabled] = useState(true);
-  const [currentCard, setCurrentCard] = useState({
+  const [projects, setProjects] = useState(null);
+  const [currentProject, setCurrentProject] = useState({
     id: 0,
     name: '',
     title: '',
@@ -45,111 +33,57 @@ export default function ProjectsScreen() {
   const token = useSelector(selectToken);
 
   const getProjects = async () => {
-    setLoading(true);
     const projects = await fetchProjects(token);
     if (projects.status === 'done') {
-      setCards(projects.response);
-      setLoading(false);
-    } else {
-      setLoading(false);
+      setProjects(projects.response);
+      if (projects.response.length) {
+        setCurrentProject(projects.response[0]);
+      }
     }
   };
 
   useEffect(() => {
     getProjects();
     return () => {
-      setCards({});
+      setProjects([]);
     };
   }, []);
 
-  function handleYup(card) {
-    console.log(`Yup for ${card.text}`);
-    return true;
-  }
-  function handleNope(card) {
-    console.log(`Nope for ${card.text}`);
-    return true;
-  }
+  const changeCurrentProject = project => {
+    setCurrentProject(project);
+  };
+
+  const handleSwipe = (id, action) => {
+    sendLike(id, action, token);
+  };
 
   return (
-    <ScrollView
-      scrollEnabled={scrollEnabled}
-      refreshControl={
-        <RefreshControl refreshing={loading} onRefresh={getProjects} />
-      }>
+    <React.Fragment>
       <View style={styles.background}></View>
       <SafeAreaView style={styles.container}>
-        {cards ? (
-          <View style={styles.projectContainer}>
-            <Title style={styles.name}>{currentCard.name}</Title>
-            <SwipeCards
-              onPressIn={() => setScrollEnabled(false)}
-              onPressOut={() => setScrollEnabled(true)}
-              cards={cards}
-              renderCard={cardData => (
-                <ProjectCard
-                  key={cardData.id}
-                  data={cardData}
-                  index={cards.indexOf(cardData)}
-                  isCurrent={currentCard === cardData}
-                />
-              )}
-              keyExtractor={cardData => {
-                return String(cardData.id);
-              }}
-              renderNoMoreCards={() => (
-                <ProjectCard
-                  data={{text: 'Plus aucun projet', backgroundColor: '#E8E4E4'}}
-                  index={0}
-                  isCurrent={true}
-                />
-              )}
-              smoothTransition={true}
-              stack={true}
-              stackDepth={3}
-              stackOffsetX={0}
-              stackOffsetY={-15}
-              hasMaybeAction={false}
-              actions={{
-                nope: {
-                  onAction: handleNope,
-                },
-                yup: {
-                  onAction: handleYup,
-                },
-              }}
-              currentCard={card => {
-                if (cards[card]) setCurrentCard(cards[card]);
-              }}
-            />
-            <ImageBackground
-              style={styles.logo}
-              source={{uri: currentCard.avatar}}></ImageBackground>
-            <Paragraph
-              style={styles.title}
-              numberOfLines={1}
-              ellipsizeMode="head">
-              {currentCard.title}
-            </Paragraph>
-            <Paragraph
-              style={styles.description}
-              numberOfLines={3}
-              ellipsizeMode="head">
-              {currentCard.description}
-            </Paragraph>
-            <BlackButton
-              size="large"
-              textStyle={styles.btnText}
-              onPress={() => navigate('ProjectDetails', {project: currentCard})}
-              style={styles.btn}>
-              Voir le détail
-            </BlackButton>
-          </View>
+        <StatusBar
+          animated={true}
+          backgroundColor="#000"
+          barStyle="light-content"
+        />
+        {projects ? (
+          <React.Fragment>
+            {currentProject ? (
+              <Projects
+                projects={projects}
+                currentProject={currentProject}
+                changeProject={changeCurrentProject}
+                onSwipe={handleSwipe}
+              />
+            ) : (
+              <NoProjects refresh={getProjects} />
+            )}
+          </React.Fragment>
         ) : (
           <StatusCard text="Loading..." />
         )}
       </SafeAreaView>
-    </ScrollView>
+    </React.Fragment>
   );
 }
 
@@ -158,46 +92,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'flex-start',
-
     marginTop: 10,
-  },
-  projectContainer: {
-    alignItems: 'center',
-    maxHeight: height - 100,
-    paddingHorizontal: 24,
-    height: Platform.OS === 'ios' ? height - 150 : height - 50,
-  },
-  name: {
-    color: '#fff',
-    marginBottom: 20,
-  },
-  logo: {
-    height: 78,
-    width: 78,
-    borderRadius: 40,
-    backgroundColor: '#000',
-    marginTop: 20,
-    overflow: 'hidden',
-  },
-  title: {
-    color: '#767676',
-    fontSize: 14,
-    fontFamily: 'Montserrat-Regular',
-    textTransform: 'uppercase',
-    marginTop: 40,
-  },
-  description: {
-    color: '#767676',
-    fontSize: 14,
-    fontFamily: 'Montserrat-Regular',
-  },
-  btn: {
-    width: width - 48,
-    position: 'absolute',
-    bottom: 0,
-  },
-  btnText: {
-    fontSize: 14,
   },
   background: {
     height: height / 2,

@@ -78,7 +78,7 @@ export default class SwipeCards extends Component {
       },
 
       onPanResponderGrant: (e, gestureState) => {
-        this.props.onPressIn();
+        console.log('onPanResponderGrant');
         this.state.pan.setOffset({
           x: this.state.pan.x._value,
           y: this.state.pan.y._value,
@@ -101,7 +101,7 @@ export default class SwipeCards extends Component {
       ),
 
       onPanResponderRelease: async (e, {vx, vy, dx, dy}) => {
-        this.props.onPressOut();
+        console.log('onPanResponderRelease');
         if (this.props.onDragRelease) this.props.onDragRelease();
         this.state.pan.flattenOffset();
         let velocity;
@@ -608,8 +608,6 @@ SwipeCards.propTypes = {
     nope: actionShape,
     maybe: actionShape,
   }),
-  onPressIn: PropTypes.func,
-  onPressOut: PropTypes.func,
   onClickHandler: PropTypes.func,
   onDragStart: PropTypes.func,
   onDragRelease: PropTypes.func,

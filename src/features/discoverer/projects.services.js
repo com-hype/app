@@ -10,3 +10,14 @@ export async function fetchProjects(token) {
     },
   });
 }
+
+export async function sendLike(id, action, token) {
+  return axiosRequest({
+    method: 'POST',
+    url: `/projects/${id}/like`,
+    data: {action},
+    headers: {
+      Authorization: formatLocalToken(token),
+    },
+  });
+}

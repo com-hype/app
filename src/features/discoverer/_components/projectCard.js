@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
-export default function ProjectCard({data, index, isCurrent}) {
+export default function ProjectCard({data, isCurrent}) {
+  console.log('ProjectCard', data);
   return (
     <ImageBackground
       source={{uri: 'https://via.placeholder.com/300'}}

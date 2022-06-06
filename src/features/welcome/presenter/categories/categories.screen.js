@@ -7,31 +7,26 @@ import {
   Keyboard,
   Alert,
 } from 'react-native';
-import hobbiesDefaultlist from './hobbies.utils';
+import hobbiesDefaultlist from './categories.utils';
 import {
   BlackBorderButton,
   BlackButton,
   InputLineWithSubmitBtn,
   Paragraph,
   Title,
-} from '../../../components/atoms';
-import {DefaultTemplate} from '../../../components/templates';
-import {useDispatch} from 'react-redux';
-import {discovererRegistration} from '../../authentication/user.redux';
+} from '../../../../components/atoms';
+import {DefaultTemplate} from '../../../../components/templates';
+import {useNavigation} from '@react-navigation/native';
+
 const {height, width} = Dimensions.get('window');
-export default function UserHobbiesScreen() {
+export default function ProjectCategoriesScreen() {
   const [hobbies, setHobbies] = useState([]);
   const [selectedHobbies, setSelectedHobbies] = useState([]);
   const [customHobbie, setCustomHobbie] = useState('');
-  const dispatch = useDispatch();
-
+  const {navigate} = useNavigation();
   useEffect(() => {
     setHobbies([...hobbiesDefaultlist]);
   }, []);
-
-  useEffect(() => {
-    console.log('hobbies ->', hobbies);
-  }, [hobbies]);
 
   const handleSelectHobbie = (hobby, action) => {
     if (action === 'add') {
@@ -51,30 +46,29 @@ export default function UserHobbiesScreen() {
   };
 
   const handleSubmit = async () => {
-    if (selectedHobbies.length < 2) {
+    if (selectedHobbies.length < 1) {
       Alert.alert(
         'Impossible',
-        "Veuillez sélectionner au moins deux centres d'intérêt",
+        "Veuillez sélectionner au moins un centre d'intérêt",
         [{text: 'OK'}],
       );
+      return;
     }
     let formatedHobbies = JSON.stringify(selectedHobbies);
     formatedHobbies = formatedHobbies
       .substring(1, formatedHobbies.length - 1)
       .replace(/"/g, '');
 
-    await dispatch(
-      discovererRegistration({
-        interests: formatedHobbies,
-      }),
-    );
+    navigate('ProjectWish', {categories: formatedHobbies});
   };
 
   return (
     <React.Fragment>
       <DefaultTemplate>
         <View style={styles.container}>
-          <Title style={styles.title}>Quels sont vos centres d'intérêt ?</Title>
+          <Title style={styles.title}>
+            Quelle catégorie décrirait le mieux votre projet ?
+          </Title>
           <Paragraph style={styles.paragraph}>
             Choisissez au moins deux centres d'intérêt
           </Paragraph>
@@ -110,7 +104,7 @@ export default function UserHobbiesScreen() {
             }
             value={customHobbie}
             placeholder="Ajouter un centre d'intérêt"
-            btnImage={require('../../../assets/img/icons/add.png')}
+            btnImage={require('../../../../assets/img/icons/add.png')}
             callback={handleAddCustomHobbie}
             isValid={customHobbie.length > 2}
           />
