@@ -8,6 +8,7 @@ import UserTypeScreen from '../features/welcome/user-type/user-type.screen';
 import UserHobbiesScreen from '../features/welcome/hobbies/hobbies.screen';
 import ProjectCategoriesScreen from '../features/welcome/presenter/categories/categories.screen';
 import ProjectWishScreen from '../features/welcome/presenter/wish/wish.screen';
+import ProjectNameScreen from '../features/welcome/presenter/name/name.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -26,6 +27,7 @@ const WelcomeNavigation = () => {
           component={ProjectCategoriesScreen}
         />
         <Stack.Screen name="ProjectWish" component={ProjectWishScreen} />
+        <Stack.Screen name="ProjectName" component={ProjectNameScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
