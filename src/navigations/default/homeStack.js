@@ -12,16 +12,13 @@ const HomeStack = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <Stack.Group>
-        <Stack.Screen name="Home" component={ProjectsScreen} />
-      </Stack.Group>
-      <Stack.Group screenOptions={{presentation: 'modal'}}>
-        <Stack.Screen name="ProjectDetails" component={ProjectDetailsScreen} />
-        <Stack.Screen
-          name="ProjectCrowfunding"
-          component={ProjectCrowfundingScreen}
-        />
-      </Stack.Group>
+      <Stack.Screen name="Home" component={ProjectsScreen} />
+
+      <Stack.Screen name="ProjectDetails" component={ProjectDetailsScreen} />
+      <Stack.Screen
+        name="ProjectCrowfunding"
+        component={ProjectCrowfundingScreen}
+      />
     </Stack.Navigator>
   );
 };

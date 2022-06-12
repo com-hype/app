@@ -34,8 +34,6 @@ export default function ProjectCrowdfundingScreen({route}) {
       return;
     }
 
-    console.log('goal -> ', goal);
-
     navigate('ProjectImages', {
       ...projectProps,
       crowdfunding_goal: goal,

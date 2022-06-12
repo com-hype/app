@@ -21,3 +21,16 @@ export async function sendLike(id, action, token) {
     },
   });
 }
+export async function sendPaymentIntent(projectId, amount, token) {
+  return axiosRequest({
+    method: 'POST',
+    url: `/payment/intent`,
+    data: {
+      project_id: projectId,
+      amount: amount,
+    },
+    headers: {
+      Authorization: formatLocalToken(token),
+    },
+  });
+}

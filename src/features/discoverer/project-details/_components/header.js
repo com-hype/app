@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   Dimensions,
+  Platform,
 } from 'react-native';
 import {Title} from '../../../../components/atoms';
 
@@ -37,12 +38,15 @@ export default function Header({image, name, avatar}) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 150,
-    justifyContent: 'center',
+    height: Platform.OS === 'ios' ? 190 : 150,
+    justifyContent: Platform.OS === 'ios' ? 'flex-end' : 'center',
     alignItems: 'center',
     borderBottomLeftRadius: 40,
     borderBottomRightRadius: 40,
     overflow: 'hidden',
+  },
+  nameContainer: {
+    marginBottom: Platform.OS === 'ios' ? 20 : 0,
   },
   backgroundContainer: {
     position: 'absolute',
