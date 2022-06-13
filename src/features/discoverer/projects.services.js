@@ -11,6 +11,16 @@ export async function fetchProjects(token) {
   });
 }
 
+export async function fetchCrowdfundingProject(id, token) {
+  return axiosRequest({
+    method: 'GET',
+    url: `projects/${id}/crowdfunding`,
+    headers: {
+      Authorization: formatLocalToken(token),
+    },
+  });
+}
+
 export async function sendLike(id, action, token) {
   return axiosRequest({
     method: 'POST',

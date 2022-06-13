@@ -9,13 +9,17 @@ import {
 import {BlackButton} from '../../../../components/atoms';
 import {sendPaymentIntent} from '../../projects.services';
 import {useSelector} from 'react-redux';
-import {selectToken, selectUser} from '../../../authentication/user.redux';
+import {selectToken} from '../../../authentication/user.redux';
 import {Alert, View} from 'react-native';
 import Loading from '../../../authentication/_components/loading';
 
-export default function Payment({amount = 0, projectId = 0}) {
+export default function Payment({
+  amount = 0,
+  projectId = 0,
+  handleSuccess = () => {},
+}) {
   const token = useSelector(selectToken);
-  const user = useSelector(selectUser);
+
   const {confirmPayment} = useStripe();
   const [loading, setLoading] = useState(false);
 
@@ -41,10 +45,7 @@ export default function Payment({amount = 0, projectId = 0}) {
       });
 
       if (!error) {
-        Alert.alert(
-          'Received payment',
-          `Billed for ${paymentIntent?.amount / 100}€`,
-        );
+        handleSuccess();
       } else {
         console.log(error);
         Alert.alert('Error', error.message || error.localizedMessage);
