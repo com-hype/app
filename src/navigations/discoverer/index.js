@@ -8,10 +8,13 @@ import HomeStack from './homeStack';
 import ChatStack from './chatStack';
 import AccountStack from './accountStack';
 import ListStack from './listStack';
+import {useSelector} from 'react-redux';
+import {selectUser} from '../../features/authentication/user.redux';
 
 const Tab = createBottomTabNavigator();
 
-const DefaultNavigation = () => {
+const DiscovererNavigation = () => {
+  const user = useSelector(selectUser);
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -52,4 +55,4 @@ const DefaultNavigation = () => {
   );
 };
 
-export default DefaultNavigation;
+export default DiscovererNavigation;

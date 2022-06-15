@@ -3,8 +3,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProjectSettingsScreen from '../../features/project/project-setting/project-settings.screen';
 import AccountScreen from '../../features/account/account.screen';
 import ProjectFeaturesScreen from '../../features/project/project-features/project-features.screen';
-import {Text, TouchableOpacity} from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 
 const Stack = createNativeStackNavigator();
 const AccountStack = () => {
@@ -27,11 +25,6 @@ const AccountStack = () => {
           component={ProjectFeaturesScreen}
           options={{
             headerTitle: 'Fonctionnalités',
-            headerRight: () => (
-              <TouchableOpacity>
-                <Text>Sauvegarder</Text>
-              </TouchableOpacity>
-            ),
           }}
         />
       </Stack.Group>

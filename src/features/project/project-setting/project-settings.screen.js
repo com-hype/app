@@ -189,6 +189,7 @@ export default function ProjectSettingsScreen() {
         style={styles.crowdfundingBtn}
         onPress={() =>
           navigate('Fonctionnalités du projet', {
+            project: project.info,
             features: [
               {
                 name: 'Fonctionnalité 1',

@@ -10,6 +10,8 @@ export default function FeatureInput({
   onChange = () => {},
   onDelete = () => {},
 }) {
+  console.log('name', name);
+  console.log('description', description);
   return (
     <Animatable.View
       style={styles.container}

@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   View,
@@ -6,11 +7,14 @@ import {
   StyleSheet,
   Dimensions,
   Platform,
+  TouchableOpacity,
+  Text,
 } from 'react-native';
 import {Title} from '../../../../components/atoms';
 
 const {height} = Dimensions.get('window');
-export default function Header({image, name, avatar}) {
+export default function Header({image, name, avatar, isMyProject = false}) {
+  const {navigate} = useNavigation();
   return (
     <ImageBackground
       source={{
@@ -31,6 +35,14 @@ export default function Header({image, name, avatar}) {
       </View>
       <View style={styles.nameContainer}>
         <Title style={styles.title}>{name}</Title>
+        {isMyProject && (
+          <TouchableOpacity
+            style={styles.stats}
+            onPress={() => navigate('ProjectStats')}>
+            <Image source={require('../../../../assets/img/icons/stats.png')} />
+            <Text style={styles.statsText}>Voir les statistiques</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </ImageBackground>
   );
@@ -65,5 +77,17 @@ const styles = StyleSheet.create({
   },
   title: {
     color: '#fff',
+  },
+  stats: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: -15,
+  },
+  statsText: {
+    color: '#fff',
+    marginBottom: 5,
+    fontSize: 12,
+    fontFamily: 'Montserrat-Regular',
   },
 });
