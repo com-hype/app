@@ -1,5 +1,5 @@
 import {StyleSheet, Dimensions} from 'react-native';
-
+import colors from '../../theme/colors';
 const {width} = Dimensions.get('window');
 
 export default styles = StyleSheet.create({
@@ -33,7 +33,7 @@ export default styles = StyleSheet.create({
     alignItems: 'center',
   },
   crowdfundingBtn: {
-    backgroundColor: '#5F5BD9',
+    backgroundColor: colors.primary,
     borderColor: '#5F5BD9',
   },
   deleteBtn: {

@@ -68,8 +68,8 @@ export const ImageInput = ({
         <Image
           source={
             photo
-              ? require('../../../assets/img/icons/edit.png')
-              : require('../../../assets/img/icons/add-image.png')
+              ? require('../../../../assets/img/icons/edit.png')
+              : require('../../../../assets/img/icons/add-image.png')
           }
         />
       </ImageBackground>

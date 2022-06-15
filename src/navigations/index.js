@@ -4,7 +4,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {checkToken, selectAll} from '../features/authentication/user.redux';
 import Loading from '../features/authentication/_components/loading';
 import AuthNavigation from './auth';
-import DefaultNavigation from './default';
+import DiscovererNavigation from './discoverer';
+import DefaultNavigation from './discoverer';
+import PresenterNavigation from './presenter';
 import WelcomeNavigation from './welcome';
 
 const RootContainer = () => {
@@ -14,6 +16,7 @@ const RootContainer = () => {
   useEffect(() => {
     if (user.token) {
       dispatch(checkToken(user.token));
+      console.log(user.data.type);
     }
   }, []);
 
@@ -24,7 +27,11 @@ const RootContainer = () => {
   } else if (user.data.status === 'in_registration') {
     return <WelcomeNavigation />;
   } else if (user.data.status === 'active') {
-    return <DefaultNavigation />;
+    if (user.data.type === 'discoverer') {
+      return <DiscovererNavigation />;
+    } else if (user.data.type === 'presenter') {
+      return <PresenterNavigation />;
+    }
   } else {
     return <Loading />;
   }

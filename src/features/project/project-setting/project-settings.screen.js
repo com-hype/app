@@ -8,21 +8,23 @@ import {
   Paragraph,
   SubTitle,
   Title,
-} from '../../components/atoms';
-import {DefaultTemplate} from '../../components/templates';
-import Loading from '../authentication/_components/loading';
+} from '../../../components/atoms';
+import {DefaultTemplate} from '../../../components/templates';
+import Loading from '../../authentication/_components/loading';
 import ImageInput from './_components/imageInput';
-import styles from './project.style';
-import {sendReplaceProjectImage, sendProjectImage} from './project.services';
+import styles from '../project.style';
+import {sendReplaceProjectImage, sendProjectImage} from '../project.services';
 import {useSelector} from 'react-redux';
-import {selectToken} from '../authentication/user.redux';
+import {selectToken} from '../../authentication/user.redux';
 import Toast from 'react-native-toast-message';
-import {getPersonnalProject} from '../account/account.services';
+import {getPersonnalProject} from '../../account/account.services';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
+import {useNavigation} from '@react-navigation/native';
 
-export default function ProjectScreen() {
+export default function ProjectSettingsScreen() {
   const token = useSelector(selectToken);
+  const {navigate} = useNavigation();
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState([]);
@@ -178,17 +180,39 @@ export default function ProjectScreen() {
 
       <SubTitle style={{marginBottom: 15}}>Catégories de projet</SubTitle>
       <BlackButton>Modifier</BlackButton>
-      {/* <FontAwesome name="arrow-right" size={16} color="#fff" /> */}
 
-      <SubTitle style={{marginTop: 25}}>Financement participatif</SubTitle>
+      <SubTitle style={{marginTop: 25}}>Fonctionnalités du projet</SubTitle>
+      <Paragraph style={{textAlign: 'left'}}>
+        Renseignez les fonctionnalités de votre projet.
+      </Paragraph>
+      <BlackButton
+        style={styles.crowdfundingBtn}
+        onPress={() =>
+          navigate('Fonctionnalités du projet', {
+            project: project.info,
+            features: [
+              {
+                name: 'Fonctionnalité 1',
+                description: 'Description de la fonctionnalité 1',
+              },
+              {
+                name: 'Fonctionnalité 2',
+                description: 'Description de la fonctionnalité 2',
+              },
+            ],
+          })
+        }>
+        Gérer les fonctionnalités
+      </BlackButton>
+
+      {/* <SubTitle style={{marginTop: 25}}>Financement participatif</SubTitle>
       <Paragraph style={{textAlign: 'left'}}>
         Le financement participatif est une méthode efficace pour financer votre
         projet.
       </Paragraph>
-
       <BlackButton style={styles.crowdfundingBtn}>
         {project.info.crowdfunding ? 'Modifier' : 'Configurer maintenant'}
-      </BlackButton>
+      </BlackButton> */}
       <View style={styles.footer}>
         <BlackBorderButton style={styles.repportBtn}>
           Signaler un problème
