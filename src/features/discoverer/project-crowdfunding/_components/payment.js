@@ -19,7 +19,6 @@ export default function Payment({
   handleSuccess = () => {},
 }) {
   const token = useSelector(selectToken);
-
   const {confirmPayment} = useStripe();
   const [loading, setLoading] = useState(false);
 
@@ -40,7 +39,7 @@ export default function Payment({
     console.log('client_secret -> ', client_secret);
 
     if (client_secret && type === 'Card') {
-      const {paymentIntent, error} = await confirmPayment(client_secret, {
+      const {error} = await confirmPayment(client_secret, {
         paymentMethodType: 'Card',
       });
 

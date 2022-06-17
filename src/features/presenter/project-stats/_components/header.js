@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   Text,
@@ -13,10 +14,12 @@ import colors from '../../../../theme/colors';
 
 const {width} = Dimensions.get('window');
 export default function Header({type = 'day', changeType = () => {}}) {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.headerBtnContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../../../assets/img/icons/arrow-left.png')}
           />

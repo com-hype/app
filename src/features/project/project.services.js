@@ -19,6 +19,8 @@ export async function sendReplaceProjectImage(id, payload, token) {
     data: payload,
     headers: {
       Authorization: formatLocalToken(token),
+      Accept: 'application/json',
+      'Content-Type': 'multipart/form-data',
     },
   });
 }
@@ -27,6 +29,16 @@ export async function fetchFeatures(id, token) {
   return axiosRequest({
     method: 'GET',
     url: `/projects/${id}/features`,
+    headers: {
+      Authorization: formatLocalToken(token),
+    },
+  });
+}
+
+export async function fetchStats(token) {
+  return axiosRequest({
+    method: 'GET',
+    url: `/projects/me/stats`,
     headers: {
       Authorization: formatLocalToken(token),
     },
