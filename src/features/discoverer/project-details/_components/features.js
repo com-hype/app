@@ -1,17 +1,23 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import {SubTitle} from '../../../../components/atoms';
+import {Paragraph, SubTitle} from '../../../../components/atoms';
 
 export default function Features({features = []}) {
   return (
     <View>
       <SubTitle style={styles.subTitle}>Fonctionnalités</SubTitle>
-      {features.map((feature, index) => (
-        <View key={index} style={styles.textContainer}>
-          <Text style={styles.title}>{feature.name}</Text>
-          <Text style={styles.paragraph}>{feature.description}</Text>
-        </View>
-      ))}
+      {features.length ? (
+        features.map((feature, index) => (
+          <View key={index} style={styles.textContainer}>
+            <Text style={styles.title}>{feature.name}</Text>
+            <Text style={styles.paragraph}>{feature.description}</Text>
+          </View>
+        ))
+      ) : (
+        <Paragraph style={styles.emptyText}>
+          Aucune fonctionnalité n'a été ajoutée pour ce projet.
+        </Paragraph>
+      )}
     </View>
   );
 }
@@ -36,5 +42,11 @@ const styles = StyleSheet.create({
     fontFamily: 'Montserrat-Regular',
     fontSize: 12,
     marginTop: 5,
+  },
+  emptyText: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: 12,
+    marginVertical: 50,
+    marginHorizontal: 24,
   },
 });
