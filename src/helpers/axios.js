@@ -14,6 +14,7 @@ export const axiosRequest = async axiosParams => {
     return {status: 'done', response: response.data};
   } catch (error) {
     console.log('error -> ', error.message);
+
     const code = error?.response?.data
       ? error.response.data.error
       : 'AN_ERROR_HAS_OCCURRED';
