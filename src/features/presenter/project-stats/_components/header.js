@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {
   Text,
@@ -12,16 +13,22 @@ import {BlackButton, Title} from '../../../../components/atoms';
 import colors from '../../../../theme/colors';
 
 const {width} = Dimensions.get('window');
-export default function Header({type = 'day', changeType = () => {}}) {
+export default function Header({
+  type = 'day',
+  changeType = () => {},
+  onShare = () => {},
+}) {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <View style={styles.headerBtnContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
             source={require('../../../../assets/img/icons/arrow-left.png')}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => onShare()}>
           <Image source={require('../../../../assets/img/icons/share.png')} />
         </TouchableOpacity>
       </View>

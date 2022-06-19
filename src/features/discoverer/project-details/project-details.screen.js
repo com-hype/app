@@ -13,7 +13,9 @@ import {getPersonnalProject} from '../../account/account.services';
 import {selectToken} from '../../authentication/user.redux';
 import Loading from '../../authentication/_components/loading';
 import {fetchProjectById} from '../projects.services';
+import Description from './_components/description';
 import Features from './_components/features';
+import FundingBar from './_components/fundingBar';
 import Header from './_components/header';
 import Library from './_components/library';
 
@@ -21,6 +23,7 @@ const {width} = Dimensions.get('window');
 
 export default function ProjectDetailsScreen({route}) {
   const info = route.params?.project?.info;
+
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMyProject, setIsMyProject] = useState(false);
@@ -43,7 +46,6 @@ export default function ProjectDetailsScreen({route}) {
     const project = await getPersonnalProject(token);
     if (project.status === 'done') {
       setIsMyProject(true);
-
       setProject(project.response);
       setLoading(false);
     }
@@ -70,7 +72,13 @@ export default function ProjectDetailsScreen({route}) {
           avatar={project.info.avatar}
           isMyProject={isMyProject}
         />
+        <FundingBar crowdfunding={project.crowdfunding} />
+        <Description
+          description={project.info.description}
+          categories={project.categories}
+        />
         <Library images={project.images} />
+
         <Features features={project.features} />
         <View style={styles.spacer} />
       </ScrollView>

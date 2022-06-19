@@ -1,9 +1,18 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, ScrollView, StyleSheet, Dimensions, Image} from 'react-native';
+import {
+  View,
+  ScrollView,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import {SubTitle, Title} from '../../../../components/atoms';
 
 const {height} = Dimensions.get('window');
 export default function Library({images = []}) {
+  const {navigate} = useNavigation();
   return (
     <View style={styles.container}>
       <SubTitle>GALERIE</SubTitle>
@@ -12,12 +21,14 @@ export default function Library({images = []}) {
           horizontal={true}
           showsHorizontalScrollIndicator={false}
           style={styles.scrolContainer}>
-          {images.map(image => (
-            <Image
+          {images.map((image, index) => (
+            <TouchableOpacity
               key={image.id}
-              source={{uri: image.url}}
-              style={styles.image}
-            />
+              onPress={() =>
+                navigate('ProjectImages', {images, position: index})
+              }>
+              <Image source={{uri: image.url}} style={styles.image} />
+            </TouchableOpacity>
           ))}
         </ScrollView>
       </View>

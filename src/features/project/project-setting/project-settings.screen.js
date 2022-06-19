@@ -86,6 +86,7 @@ export default function ProjectSettingsScreen() {
   const uploadImage = async (result, index) => {
     setLoading(true);
     const imageData = new FormData();
+    console.log('result', result);
     imageData.append('image', {
       name: result.filename,
       type: result.mime,

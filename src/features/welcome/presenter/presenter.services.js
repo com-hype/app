@@ -2,6 +2,7 @@ import {axiosRequest} from '../../../helpers/axios';
 import formatLocalToken from '../../../helpers/formatLocalToken';
 
 export async function sendPresenterRegistration(payload, token) {
+  console.log('payload -> ', payload);
   return axiosRequest({
     method: 'POST',
     url: '/auth/register/presenter',

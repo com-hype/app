@@ -6,6 +6,10 @@ import {
   Dimensions,
   TouchableOpacity,
   PlatformColor,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform,
+  Keyboard,
 } from 'react-native';
 import {
   BlackBorderButton,
@@ -102,6 +106,7 @@ export default function ProjectFeaturesScreen({route, navigation}) {
             onDelete={handleDelete}
           />
         ))}
+        <View style={{height: 150}} />
       </ScrollView>
       <BlackButton size="large" style={styles.btn} onPress={handleSubmit}>
         Sauvegarder
