@@ -5,6 +5,7 @@ import ProjectDetailsScreen from '../../features/discoverer/project-details/proj
 import ProjectCrowfundingScreen from '../../features/discoverer/project-crowdfunding/project-crowdfunding.screen';
 import ProjectImagesScreen from '../../features/discoverer/project-images/project-images.screen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import MessagesScreen from '../../features/chat/messages.screen';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,7 @@ const HomeStack = ({navigation, route}) => {
         component={ProjectCrowfundingScreen}
       />
       <Stack.Screen name="ProjectImages" component={ProjectImagesScreen} />
+      <Stack.Screen name="DiscussionMessages" component={MessagesScreen} />
     </Stack.Navigator>
   );
 };

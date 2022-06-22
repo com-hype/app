@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
+import Pusher from 'pusher-js/react-native';
+import Toast from 'react-native-toast-message';
 
 import HomeStack from './homeStack';
 import ChatStack from './chatStack';
@@ -15,6 +17,26 @@ const Tab = createBottomTabNavigator();
 
 const DiscovererNavigation = () => {
   const user = useSelector(selectUser);
+
+  useEffect(() => {
+    var pusher = new Pusher('76af20e9e12a3ba167d2', {
+      cluster: 'eu',
+    });
+
+    var channel = pusher.subscribe(`user.${user.id}`);
+    channel.bind('user.receive.message', function (data) {
+      Toast.show({
+        type: 'info',
+        text1: data.title,
+        text2: data.message.body,
+        onPress: () => {
+          console.log('Toast pressed');
+          Toast.hide();
+        },
+      });
+    });
+  }, []);
+
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -27,7 +49,6 @@ const DiscovererNavigation = () => {
           tabBarIcon: ({focused}) => {
             let iconName;
             let size = 24;
-
             let color = focused ? '#5F5BD9' : '#BEBEBE';
             if (route.name === 'Accueil') {
               iconName = focused ? 'brain' : 'brain';

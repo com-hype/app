@@ -294,6 +294,8 @@ PODS:
     - React-Core
   - react-native-date-picker (4.2.2):
     - React-Core
+  - react-native-netinfo (9.0.0):
+    - React-Core
   - react-native-safe-area-context (4.3.1):
     - RCT-Folly
     - RCTRequired
@@ -464,6 +466,7 @@ DEPENDENCIES:
   - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-config (from `../node_modules/react-native-config`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
+  - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -559,6 +562,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-config"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
+  react-native-netinfo:
+    :path: "../node_modules/@react-native-community/netinfo"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-view-shot:
@@ -643,6 +648,7 @@ SPEC CHECKSUMS:
   react-native-cameraroll: 2957f2bce63ae896a848fbe0d5352c1bd4d20866
   react-native-config: 7cd105e71d903104e8919261480858940a6b9c0e
   react-native-date-picker: 9088350e06918f7d842a34c171acadc66583cb94
+  react-native-netinfo: 5b664b2945a8f02102b296f0f812bddd6827ed9c
   react-native-safe-area-context: 6c12e3859b6f27b25de4fee8201cfb858432d8de
   react-native-view-shot: da768466e1cd371de50a3a5c722d1e95456b5b2c
   React-perflogger: a18b4f0bd933b8b24ecf9f3c54f9bf65180f3fe6

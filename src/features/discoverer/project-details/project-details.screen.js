@@ -67,10 +67,12 @@ export default function ProjectDetailsScreen({route}) {
     <View style={styles.container}>
       <ScrollView>
         <Header
+          author={project.author}
           image={project.images[0]}
           name={project.info.name}
           avatar={project.info.avatar}
           isMyProject={isMyProject}
+          token={token}
         />
         <FundingBar crowdfunding={project.crowdfunding} />
         <Description
