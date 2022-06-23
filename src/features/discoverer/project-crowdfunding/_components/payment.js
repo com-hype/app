@@ -11,7 +11,7 @@ import {sendPaymentIntent} from '../../projects.services';
 import {useSelector} from 'react-redux';
 import {selectToken} from '../../../authentication/user.redux';
 import {Alert, View} from 'react-native';
-import Loading from '../../../authentication/_components/loading';
+import Loading from '../../../../components/templates/loading';
 
 export default function Payment({
   amount = 0,
@@ -36,7 +36,6 @@ export default function Payment({
     }
 
     const {client_secret} = paymentIntent.response;
-    console.log('client_secret -> ', client_secret);
 
     if (client_secret && type === 'Card') {
       const {error} = await confirmPayment(client_secret, {

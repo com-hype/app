@@ -15,7 +15,6 @@ export default function ConfirmPayment({
     <View
       style={styles.container}
       onPress={() => {
-        console.log('onClose');
         onClose();
       }}>
       <Modal

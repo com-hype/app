@@ -8,6 +8,7 @@ axios.defaults.baseURL = Config.API_URL;
 
 export const axiosRequest = async axiosParams => {
   console.log('Config -> ', Config.API_URL);
+
   try {
     const response = await axios.request(axiosParams);
 

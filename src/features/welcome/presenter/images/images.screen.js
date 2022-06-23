@@ -11,7 +11,7 @@ import {
   sendPresenterRegistration,
   sendProjectImage,
 } from '../presenter.services';
-import Loading from '../../../authentication/_components/loading';
+import Loading from '../../../../components/templates/loading';
 
 const {width} = Dimensions.get('window');
 
@@ -50,7 +50,7 @@ export default function ProjectImagesScreen({route}) {
 
     setLoading(true);
     const data = new FormData();
-    console.log('projectProps -> ', projectProps);
+
     data.append('title', projectProps.title);
     data.append('description', projectProps.description);
     data.append('name', projectProps.name);
@@ -71,7 +71,6 @@ export default function ProjectImagesScreen({route}) {
     const registration = await sendPresenterRegistration(data, token);
 
     if (registration.status !== 'done') {
-      console.log(registration.response);
       setLoading(false);
       Alert.alert('Erreur', registration.response, [{text: 'OK'}]);
       return;
@@ -91,7 +90,6 @@ export default function ProjectImagesScreen({route}) {
           token,
         );
         if (status !== 'done') {
-          console.log(code);
           setLoading(false);
           Alert.alert('Erreur', response, [{text: 'OK'}]);
           return;

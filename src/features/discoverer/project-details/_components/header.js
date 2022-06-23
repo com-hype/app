@@ -68,11 +68,13 @@ export default function Header({
           )}
         </View>
       </ImageBackground>
-      <TouchableOpacity
-        style={styles.btnDiscussion}
-        onPress={() => openDiscussion()}>
-        <Text style={styles.btnDiscussionText}>Contacter</Text>
-      </TouchableOpacity>
+      {!isMyProject && (
+        <TouchableOpacity
+          style={styles.btnDiscussion}
+          onPress={() => openDiscussion()}>
+          <Text style={styles.btnDiscussionText}>Contacter</Text>
+        </TouchableOpacity>
+      )}
     </React.Fragment>
   );
 }

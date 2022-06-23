@@ -10,7 +10,7 @@ import {
   Title,
 } from '../../../components/atoms';
 import {DefaultTemplate} from '../../../components/templates';
-import Loading from '../../authentication/_components/loading';
+
 import ImageInput from './_components/imageInput';
 import styles from '../project.style';
 import {sendReplaceProjectImage, sendProjectImage} from '../project.services';
@@ -21,6 +21,7 @@ import {getPersonnalProject} from '../../account/account.services';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
+import Loading from '../../../components/templates/loading';
 
 export default function ProjectSettingsScreen() {
   const token = useSelector(selectToken);

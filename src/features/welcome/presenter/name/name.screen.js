@@ -36,7 +36,6 @@ export default function ProjectNameScreen({route}) {
       });
 
       if (result.path) {
-        console.log(result);
         setPhoto(result);
       }
     } catch (error) {

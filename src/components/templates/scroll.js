@@ -29,6 +29,7 @@ export function ScrollTemplate({
       </View>
       <ScrollView
         style={[styles.container, style]}
+        {...props}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }>

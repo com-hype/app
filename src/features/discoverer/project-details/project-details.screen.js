@@ -11,7 +11,7 @@ import {
 import {DefaultTemplate} from '../../../components/templates';
 import {getPersonnalProject} from '../../account/account.services';
 import {selectToken} from '../../authentication/user.redux';
-import Loading from '../../authentication/_components/loading';
+import Loading from '../../../components/templates/loading';
 import {fetchProjectById} from '../projects.services';
 import Description from './_components/description';
 import Features from './_components/features';
@@ -21,7 +21,7 @@ import Library from './_components/library';
 
 const {width} = Dimensions.get('window');
 
-export default function ProjectDetailsScreen({route}) {
+export default function ProjectDetailsScreen({navigation, route}) {
   const info = route.params?.project?.info;
 
   const [project, setProject] = useState(null);
@@ -52,12 +52,15 @@ export default function ProjectDetailsScreen({route}) {
   };
 
   useEffect(() => {
-    if (info?.id) getProject();
-    else getMyProject();
+    const unsubscribe = navigation.addListener('focus', () => {
+      if (info?.id) getProject();
+      else getMyProject();
+    });
 
     return () => {
       setProject(null);
       setLoading(false);
+      unsubscribe;
     };
   }, []);
 

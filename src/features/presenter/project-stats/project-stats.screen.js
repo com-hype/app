@@ -8,9 +8,10 @@ import {captureRef} from 'react-native-view-shot';
 import {useSelector} from 'react-redux';
 import colors from '../../../theme/colors';
 import {selectToken} from '../../authentication/user.redux';
-import Loading from '../../authentication/_components/loading';
+
 import {fetchStats} from '../../project/project.services';
 import Header from './_components/header';
+import Loading from '../../../components/templates/loading';
 
 export default function ProjectStatsScreen() {
   const token = useSelector(selectToken);
@@ -68,7 +69,6 @@ export default function ProjectStatsScreen() {
     const stats = await fetchStats(token);
     if (stats.status === 'done') {
       setStats(stats.response);
-      console.log(stats.response);
     } else {
       Alert.alert('Erreur', stats.response, [{text: 'OK'}]);
     }
@@ -83,7 +83,6 @@ export default function ProjectStatsScreen() {
   }, []);
 
   const getLabels = () => {
-    console.log(stats.likes.byWeek);
     if (type === 'week') {
       const keys = Object.keys(stats.likes.byWeek);
       const labels = keys
@@ -112,7 +111,6 @@ export default function ProjectStatsScreen() {
   };
 
   const getValues = () => {
-    console.log('Object -> ', Object.values(stats.likes.byWeek));
     const values = Object.values(stats.likes.byWeek)
       .map(value => {
         // console.log(value);

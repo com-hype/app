@@ -9,7 +9,7 @@ import Container from '../_components/container';
 import {sendLogin} from './login.services';
 import {useDispatch} from 'react-redux';
 import {login, setUser} from '../user.redux';
-import Loading from '../_components/loading';
+import Loading from '../../../components/templates/loading';
 
 export default function LoginScreen() {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import {View} from 'react-native-animatable';
-import {Paragraph, SubTitle, Title} from '../../../components/atoms';
+import {Paragraph, SubTitle, Title} from '../../../../components/atoms';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
 

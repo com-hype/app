@@ -1,6 +1,9 @@
 import React, {useEffect} from 'react';
 
-import {NavigationContainer} from '@react-navigation/native';
+import {
+  getFocusedRouteNameFromRoute,
+  NavigationContainer,
+} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import Pusher from 'pusher-js/react-native';
@@ -30,7 +33,6 @@ const DiscovererNavigation = () => {
         text1: data.title,
         text2: data.message.body,
         onPress: () => {
-          console.log('Toast pressed');
           Toast.hide();
         },
       });
