@@ -17,24 +17,20 @@ import {useSelector} from 'react-redux';
 import {selectUser} from '../../features/authentication/user.redux';
 
 const Tab = createBottomTabNavigator();
+let pusher = new Pusher('76af20e9e12a3ba167d2', {
+  cluster: 'eu',
+});
 
 const DiscovererNavigation = () => {
   const user = useSelector(selectUser);
+  let channel = pusher.subscribe(`user.${user.id}`);
 
   useEffect(() => {
-    var pusher = new Pusher('76af20e9e12a3ba167d2', {
-      cluster: 'eu',
-    });
-
-    var channel = pusher.subscribe(`user.${user.id}`);
     channel.bind('user.receive.message', function (data) {
       Toast.show({
         type: 'info',
         text1: data.title,
         text2: data.message.body,
-        onPress: () => {
-          Toast.hide();
-        },
       });
     });
   }, []);

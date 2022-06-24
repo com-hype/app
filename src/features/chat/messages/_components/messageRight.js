@@ -4,19 +4,24 @@ import globalStyle from '../messages.style';
 import 'moment/locale/fr'; // without this line it didn't work
 import moment from 'moment';
 import {Paragraph} from '../../../../components/atoms';
+import * as Animatable from 'react-native-animatable';
 moment.locale('fr');
 const {width} = Dimensions.get('window');
 
 export default function MessageRight({message}) {
   return (
-    <View style={globalStyle.container}>
+    <Animatable.View
+      style={globalStyle.container}
+      animation="slideInRight"
+      duration={200}
+      easing="ease-in">
       <View style={styles.message}>
         <Text style={globalStyle.messageText}>{message.body}</Text>
       </View>
       <Paragraph style={styles.timeText}>
         {moment(message.created_at).fromNow()}
       </Paragraph>
-    </View>
+    </Animatable.View>
   );
 }
 

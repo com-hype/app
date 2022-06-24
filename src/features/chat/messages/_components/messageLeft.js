@@ -1,16 +1,28 @@
 import React from 'react';
-import {Text, View, StyleSheet, Dimensions, Image} from 'react-native';
+import {
+  Text,
+  View,
+  StyleSheet,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import moment from 'moment';
 import {Paragraph} from '../../../../components/atoms';
+import * as Animatable from 'react-native-animatable';
 import globalStyle from '../messages.style';
-import 'moment/locale/fr'; // without this line it didn't work
+import 'moment/locale/fr';
 moment.locale('fr');
 
 const {width} = Dimensions.get('window');
 
 export default function MessageLeft({message}) {
   return (
-    <View style={globalStyle.container}>
+    <Animatable.View
+      style={globalStyle.container}
+      animation="slideInLeft"
+      duration={200}
+      easing="ease-in">
       <View style={globalStyle.authorContainer}>
         <Image
           source={
@@ -22,13 +34,13 @@ export default function MessageLeft({message}) {
         />
         <Text style={globalStyle.username}>{message.author.username}</Text>
       </View>
-      <View style={styles.message}>
+      <TouchableOpacity style={styles.message}>
         <Text style={globalStyle.messageText}>{message.body}</Text>
-      </View>
+      </TouchableOpacity>
       <Paragraph style={styles.timeText}>
         {moment(message.created_at).fromNow()}
       </Paragraph>
-    </View>
+    </Animatable.View>
   );
 }
 

@@ -86,10 +86,10 @@ export default function ProjectSettingsScreen() {
 
   const uploadImage = async (result, index) => {
     setLoading(true);
+
     const imageData = new FormData();
-    console.log('result', result);
     imageData.append('image', {
-      name: result.filename,
+      name: result.filename || result.path.split('/').pop(),
       type: result.mime,
       uri: result.path,
     });
@@ -122,6 +122,12 @@ export default function ProjectSettingsScreen() {
 
   return (
     <ScrollView style={styles.container}>
+      <BlackButton
+        size="large"
+        style={styles.btnPreview}
+        onPress={() => navigate('MyProjectDetails')}>
+        Prévisualiser
+      </BlackButton>
       <SubTitle>Images de présentation</SubTitle>
       <View style={styles.imageContainer}>
         {images.map((image, index) => {

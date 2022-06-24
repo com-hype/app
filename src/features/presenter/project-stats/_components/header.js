@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginHorizontal: 24,
-    marginTop: Platform.OS === 'ios' ? 50 : 0,
+    marginTop: Platform.OS === 'ios' ? 50 : 20,
   },
   title: {
     color: '#fff',

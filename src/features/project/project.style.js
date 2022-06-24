@@ -3,6 +3,9 @@ import colors from '../../theme/colors';
 const {width} = Dimensions.get('window');
 
 export default styles = StyleSheet.create({
+  btnPreview: {
+    marginTop: 20,
+  },
   container: {
     flex: 1,
     paddingHorizontal: 24,

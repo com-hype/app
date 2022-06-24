@@ -1,7 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, StyleSheet, Dimensions, Modal, Image} from 'react-native';
 import {BlackButton, SubTitle, Title} from '../../../../components/atoms';
-import LottieView from 'lottie-react-native';
+import AnimatedLottieView from 'lottie-react-native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -10,6 +10,12 @@ export default function ConfirmPayment({
   isOpen = false,
   name = '',
 }) {
+  const [isRender, setIsRender] = React.useState(false);
+
+  useEffect(() => {
+    setIsRender(true);
+  }, []);
+
   if (!isOpen) return null;
   return (
     <View
@@ -35,12 +41,14 @@ export default function ConfirmPayment({
           </BlackButton>
         </View>
       </Modal>
-      <LottieView
-        autoPlay
-        loop={false}
-        source={require('../../../../assets/anim/confirm-payment.json')}
-        style={styles.animation}
-      />
+      {isRender && (
+        <AnimatedLottieView
+          autoPlay
+          loop={true}
+          source={require('../../../../assets/anim/confirm-payment.json')}
+          style={styles.animation}
+        />
+      )}
     </View>
   );
 }

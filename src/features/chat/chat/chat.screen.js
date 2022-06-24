@@ -2,15 +2,24 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 import {View} from 'react-native-animatable';
 import {useSelector} from 'react-redux';
+import Pusher from 'pusher-js/react-native';
 
 import {Paragraph, SubTitle, Title} from '../../../components/atoms';
 import {DefaultTemplate, ScrollTemplate} from '../../../components/templates';
-import {selectToken} from '../../authentication/user.redux';
+import {selectToken, selectUser} from '../../authentication/user.redux';
 import {fetchDiscussions} from '../chat.services';
 import Card from './_components/card';
 
-export default function ChatScreen() {
+let pusher = new Pusher('76af20e9e12a3ba167d2', {
+  cluster: 'eu',
+});
+
+export default function ChatScreen({navigation}) {
   const token = useSelector(selectToken);
+  const user = useSelector(selectUser);
+
+  let channel = pusher.subscribe(`user.${user.id}`);
+
   const [loading, setLoading] = useState(false);
   const [discussions, setDiscussions] = useState([]);
 
@@ -26,7 +35,18 @@ export default function ChatScreen() {
   };
 
   useEffect(() => {
-    getDiscussions();
+    const unsubscribe = navigation.addListener('focus', () => {
+      getDiscussions();
+    });
+    channel.bind('user.receive.message', () => {
+      getDiscussions();
+    });
+    return () => {
+      setLoading(false);
+      setDiscussions([]);
+      channel.unbind('user.receive.message');
+      unsubscribe;
+    };
   }, []);
 
   return (
@@ -35,9 +55,16 @@ export default function ChatScreen() {
       style={{marginHorizontal: 0}}
       onRefresh={getDiscussions}>
       {discussions.length ? (
-        discussions.map(discussion => (
-          <Card discussion={discussion} key={discussion.id} />
-        ))
+        discussions
+          .sort((a, b) => {
+            return (
+              new Date(b?.lastMessage?.created_at) -
+              new Date(a?.lastMessage?.created_at)
+            );
+          })
+          .map(discussion => (
+            <Card discussion={discussion} key={discussion.id} />
+          ))
       ) : (
         <Paragraph>Aucune discussion</Paragraph>
       )}

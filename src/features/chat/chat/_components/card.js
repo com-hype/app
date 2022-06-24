@@ -4,21 +4,33 @@ import {View} from 'react-native-animatable';
 import {Paragraph, SubTitle, Title} from '../../../../components/atoms';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
-
+import 'moment/locale/fr';
+import moment from 'moment';
+import {useSelector} from 'react-redux';
+import {selectUser} from '../../../authentication/user.redux';
+moment.locale('fr');
 export default function Card({discussion}) {
   const {navigate} = useNavigation();
+  const user = useSelector(selectUser);
+
+  const isNewmessage = discussion => {
+    if (
+      discussion.newMessage &&
+      discussion.lastMessage?.messageable_id !== user.id
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <TouchableOpacity
       onPress={() =>
         navigate('DiscussionMessages', {discussionId: discussion.id})
       }>
-      <View
-        style={[
-          styles.container,
-          discussion.newMessage && styles.newMessageContainer,
-        ]}>
+      <View style={styles.container}>
         <View style={styles.titleContainer}>
-          {discussion.newMessage && (
+          {isNewmessage(discussion) && (
             <Animatable.View
               animation="pulse"
               easing="ease-out"
@@ -30,11 +42,16 @@ export default function Card({discussion}) {
             {discussion.title}
           </SubTitle>
         </View>
-        <Paragraph style={styles.message} numberOfLines={1}>
-          {discussion.lastMessage.length
-            ? discussion.lastMessage
-            : 'Aucun message...'}
-        </Paragraph>
+        <View style={styles.detailsContainer}>
+          <Paragraph style={styles.message} numberOfLines={1}>
+            {discussion.lastMessage
+              ? discussion.lastMessage.body
+              : 'Aucun message...'}
+          </Paragraph>
+          <Paragraph style={styles.lastMessageTime}>
+            {moment(discussion.lastMessage.created_at).fromNow()}
+          </Paragraph>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -56,9 +73,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
   },
-  newMessageContainer: {
-    borderWidth: 1,
-    borderColor: '#3484F7',
+
+  detailsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  lastMessageTime: {
+    fontFamily: 'Montserrat-Regular',
+    fontSize: 12,
+    color: '#352641',
   },
   titleContainer: {
     marginTop: 5,
@@ -72,9 +96,9 @@ const styles = StyleSheet.create({
   },
   message: {
     textAlign: 'left',
-    fontSize: 12,
+    fontSize: 13,
     color: '#352641',
-    opacity: 0.5,
+    opacity: 0.7,
     marginBottom: 5,
   },
   circle: {

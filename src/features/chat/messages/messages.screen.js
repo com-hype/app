@@ -51,13 +51,22 @@ export default function MessagesScreen({route}) {
   useEffect(() => {
     getMessages();
     channel.bind('user.receive.message', data => {
+      console.log('received message');
       getMessages();
     });
 
     return () => {
       setMessages([]);
+      channel.unbind('user.receive.message');
     };
   }, []);
+
+  const receiveMessage = async message => {
+    console.log('receive -> ', message);
+    const tmp_messages = messages.slice();
+    console.log('messages -> ', tmp_messages);
+    setMessages([...messages, message]);
+  };
 
   const getMessageType = message => {
     if (message.author.id === user.id) {
@@ -71,8 +80,10 @@ export default function MessagesScreen({route}) {
     if (!message.length) return;
     const msg = await sendMessage(discussionId, message, token);
     if (msg.status === 'done') {
+      console.log(msg.response);
       setMessage('');
-      getMessages();
+      setMessages([...messages, msg.response]);
+      // getMessages();
     }
   };
 
