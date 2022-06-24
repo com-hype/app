@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   TouchableOpacity,
   ImageBackground,
@@ -17,10 +17,6 @@ export const ImageInput = ({
   uploadImage = () => {},
   index = 0,
 }) => {
-  useEffect(() => {
-    console.log('photo -> ', photo);
-  }, []);
-
   const handleChoosePhoto = async () => {
     try {
       const result = await ImagePicker.openPicker({

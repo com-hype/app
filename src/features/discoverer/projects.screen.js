@@ -5,7 +5,6 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {fetchProjects, sendLike} from './projects.services';
 import {useSelector} from 'react-redux';
 import {selectToken} from '../authentication/user.redux';
-import Loading from '../authentication/_components/loading';
 import {useNavigation} from '@react-navigation/native';
 import Projects from './_components/project';
 import NoProjects from './noProjects';

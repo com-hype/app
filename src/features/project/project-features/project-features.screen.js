@@ -24,7 +24,7 @@ import {fetchFeatures, sendFeatures} from '../project.services';
 import {useSelector} from 'react-redux';
 import {selectToken} from '../../authentication/user.redux';
 import Toast from 'react-native-toast-message';
-import Loading from '../../authentication/_components/loading';
+import Loading from '../../../components/templates/loading';
 
 const {height, width} = Dimensions.get('window');
 
@@ -53,7 +53,6 @@ export default function ProjectFeaturesScreen({route, navigation}) {
 
   const handleSubmit = async () => {
     navigation.goBack();
-    console.log('featuresList -> ', featuresList);
     const featuresRes = await sendFeatures(project.id, featuresList, token);
     if (featuresRes.status === 'error') {
       Toast.show({

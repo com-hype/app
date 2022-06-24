@@ -24,8 +24,6 @@ export default function AccountScreen() {
     }
   };
 
-  console.log(user);
-
   useEffect(() => {
     getProject();
     return () => {

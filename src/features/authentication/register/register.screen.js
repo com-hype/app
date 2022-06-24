@@ -8,13 +8,14 @@ import validateEmail from '../authentication.helpers';
 
 import AuthHeader from '../_components/header';
 import {BlackButton, ErrorLabel} from '../../../components/atoms';
-import Loading from '../_components/loading';
+
 import RegisterForm from './_components/form';
 import Container from '../_components/container';
 import {useNavigation} from '@react-navigation/native';
 import {sendRegister} from '../authentication.services';
 import {useDispatch} from 'react-redux';
 import {register} from '../user.redux';
+import Loading from '../../../components/templates/loading';
 
 export default function RegisterScreen() {
   const navigation = useNavigation();
@@ -76,8 +77,6 @@ export default function RegisterScreen() {
       setLoading(false);
       return;
     }
-
-    console.log(payload.response);
 
     navigation.navigate('RegisterConfirmation');
   };

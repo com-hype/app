@@ -1,16 +1,26 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Text, View, Dimensions, StyleSheet, Alert} from 'react-native';
+import {
+  Text,
+  View,
+  Dimensions,
+  StyleSheet,
+  Alert,
+  Platform,
+  PermissionsAndroid,
+} from 'react-native';
 import Share from 'react-native-share';
 
 const {width} = Dimensions.get('window');
 import {LineChart} from 'react-native-chart-kit';
-import {captureRef} from 'react-native-view-shot';
+import ViewShot, {captureRef} from 'react-native-view-shot';
 import {useSelector} from 'react-redux';
 import colors from '../../../theme/colors';
 import {selectToken} from '../../authentication/user.redux';
-import Loading from '../../authentication/_components/loading';
+
 import {fetchStats} from '../../project/project.services';
 import Header from './_components/header';
+import Loading from '../../../components/templates/loading';
+import AnimatedLottieView from 'lottie-react-native';
 
 export default function ProjectStatsScreen() {
   const token = useSelector(selectToken);
@@ -50,11 +60,20 @@ export default function ProjectStatsScreen() {
 
   const shareImage = async () => {
     try {
+      if (Platform.OS === 'android') {
+        const granted = await getPermissionAndroid();
+        if (!granted) {
+          return;
+        }
+      }
+
       // capture component
-      const uri = await captureRef(viewRef, {
-        format: 'png',
-        quality: 0.8,
-      });
+      // const uri = await captureRef(viewRef, {
+      //   format: 'png',
+      //   quality: 0.8,
+      // });
+
+      const uri = await viewRef.current.capture();
 
       // share
       const shareResponse = await Share.open({url: uri});
@@ -68,7 +87,6 @@ export default function ProjectStatsScreen() {
     const stats = await fetchStats(token);
     if (stats.status === 'done') {
       setStats(stats.response);
-      console.log(stats.response);
     } else {
       Alert.alert('Erreur', stats.response, [{text: 'OK'}]);
     }
@@ -83,7 +101,6 @@ export default function ProjectStatsScreen() {
   }, []);
 
   const getLabels = () => {
-    console.log(stats.likes.byWeek);
     if (type === 'week') {
       const keys = Object.keys(stats.likes.byWeek);
       const labels = keys
@@ -112,7 +129,6 @@ export default function ProjectStatsScreen() {
   };
 
   const getValues = () => {
-    console.log('Object -> ', Object.values(stats.likes.byWeek));
     const values = Object.values(stats.likes.byWeek)
       .map(value => {
         // console.log(value);
@@ -137,7 +153,15 @@ export default function ProjectStatsScreen() {
         changeType={type => setType(type)}
         onShare={shareImage}
       />
-      <View ref={viewRef} style={styles.statsContainer}>
+
+      <ViewShot
+        ref={viewRef}
+        style={styles.statsContainer}
+        options={{
+          fileName: `statistiques_${Date.now()}`,
+          format: 'png',
+          quality: 1,
+        }}>
         <LineChart
           data={{
             labels: getLabels(),
@@ -184,7 +208,7 @@ export default function ProjectStatsScreen() {
             <Text style={styles.cardSubTitle}>{stats.amount} €</Text>
           </View>
         </View>
-      </View>
+      </ViewShot>
     </View>
   );
 }
@@ -192,7 +216,6 @@ export default function ProjectStatsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
     alignItems: 'center',
   },
   statsContainer: {
@@ -210,7 +233,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5,
     paddingTop: 16,
   },
   card: {

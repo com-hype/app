@@ -13,7 +13,7 @@ import {useSelector} from 'react-redux';
 import {Title} from '../../components/atoms';
 import {DefaultTemplate} from '../../components/templates';
 import {selectToken} from '../authentication/user.redux';
-import Loading from '../authentication/_components/loading';
+
 import {fetchLikes} from './likes.services';
 import Card from './_components/card';
 
@@ -28,7 +28,6 @@ export default function LikesListScreen() {
     setLoading(true);
     const projectsLiked = await fetchLikes(token);
     if (projectsLiked.status === 'done') {
-      console.log('projectsLiked -> ', projectsLiked.response);
       setProjects(projectsLiked.response);
     }
     setLoading(false);

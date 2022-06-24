@@ -10,7 +10,7 @@ import {
   Title,
 } from '../../../components/atoms';
 import {DefaultTemplate} from '../../../components/templates';
-import Loading from '../../authentication/_components/loading';
+
 import ImageInput from './_components/imageInput';
 import styles from '../project.style';
 import {sendReplaceProjectImage, sendProjectImage} from '../project.services';
@@ -21,6 +21,7 @@ import {getPersonnalProject} from '../../account/account.services';
 import FontAwesome from 'react-native-vector-icons/FontAwesome5';
 import * as Animatable from 'react-native-animatable';
 import {useNavigation} from '@react-navigation/native';
+import Loading from '../../../components/templates/loading';
 
 export default function ProjectSettingsScreen() {
   const token = useSelector(selectToken);
@@ -85,10 +86,10 @@ export default function ProjectSettingsScreen() {
 
   const uploadImage = async (result, index) => {
     setLoading(true);
+
     const imageData = new FormData();
-    console.log('result', result);
     imageData.append('image', {
-      name: result.filename,
+      name: result.filename || result.path.split('/').pop(),
       type: result.mime,
       uri: result.path,
     });
@@ -121,6 +122,12 @@ export default function ProjectSettingsScreen() {
 
   return (
     <ScrollView style={styles.container}>
+      <BlackButton
+        size="large"
+        style={styles.btnPreview}
+        onPress={() => navigate('MyProjectDetails')}>
+        Prévisualiser
+      </BlackButton>
       <SubTitle>Images de présentation</SubTitle>
       <View style={styles.imageContainer}>
         {images.map((image, index) => {

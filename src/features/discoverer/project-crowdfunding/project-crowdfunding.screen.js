@@ -21,7 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 import Header from '../project-details/_components/header';
 import ConfirmPayment from './_components/confirm-payment';
 import Payment from './_components/payment';
-import Loading from '../../authentication/_components/loading';
+import Loading from '../../../components/templates/loading';
 import {fetchCrowdfundingProject} from '../projects.services';
 import {useSelector} from 'react-redux';
 import {selectToken} from '../../authentication/user.redux';

@@ -29,10 +29,6 @@ export default function UserHobbiesScreen() {
     setHobbies([...hobbiesDefaultlist]);
   }, []);
 
-  useEffect(() => {
-    console.log('hobbies ->', hobbies);
-  }, [hobbies]);
-
   const handleSelectHobbie = (hobby, action) => {
     if (action === 'add') {
       setSelectedHobbies([...selectedHobbies, hobby]);

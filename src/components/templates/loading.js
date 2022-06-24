@@ -1,11 +1,19 @@
 import React from 'react';
 import {View, ActivityIndicator, StyleSheet, Dimensions} from 'react-native';
+import LottieView from 'lottie-react-native';
+
 const {height, width} = Dimensions.get('window');
 
 export default function Loading() {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#000" />
+      {/* <ActivityIndicator size="large" color="#000" /> */}
+      <LottieView
+        autoPlay
+        loop={true}
+        source={require('../../assets/anim/loader.json')}
+        style={styles.animation}
+      />
     </View>
   );
 }

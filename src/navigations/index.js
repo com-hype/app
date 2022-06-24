@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
+import Loading from '../components/templates/loading';
 import {checkToken, selectAll} from '../features/authentication/user.redux';
-import Loading from '../features/authentication/_components/loading';
+
 import AuthNavigation from './auth';
 import DiscovererNavigation from './discoverer';
 import DefaultNavigation from './discoverer';
@@ -16,7 +17,6 @@ const RootContainer = () => {
   useEffect(() => {
     if (user.token) {
       dispatch(checkToken(user.token));
-      console.log(user.data.type);
     }
   }, []);
 
