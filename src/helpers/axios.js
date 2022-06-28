@@ -3,7 +3,9 @@ import Config from 'react-native-config';
 
 import {getErrorMessage} from './errors';
 
-axios.defaults.baseURL = Config.API_URL;
+axios.defaults.baseURL = Config.API_URL
+  ? Config.API_URL
+  : 'https://comhype.herokuapp.com/api';
 // axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
 
 export const axiosRequest = async axiosParams => {

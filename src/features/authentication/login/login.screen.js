@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {getUniqueId} from 'react-native-device-info';
+import Config from 'react-native-config';
 
 import {BlackButton, ErrorLabel, InputLine} from '../../../components/atoms';
 import styles from '../authentication.style';

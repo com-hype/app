@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {View, TouchableOpacity} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {BlackButton, Title} from '../../components/atoms';
-import {DefaultTemplate} from '../../components/templates';
+import {Title} from '../../components/atoms';
 import {logout, selectToken, selectUser} from '../authentication/user.redux';
+
 import ProfilCard from './_components/profil';
 import Card from './_components/card';
 import {getPersonnalProject} from './account.services';
