@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProjectSettingsScreen from '../../features/project/project-setting/project-settings.screen';
 import AccountScreen from '../../features/account/account.screen';
@@ -6,9 +6,21 @@ import ProjectFeaturesScreen from '../../features/project/project-features/proje
 import ProjectImagesScreen from '../../features/discoverer/project-images/project-images.screen';
 import ProjectStatsScreen from '../../features/presenter/project-stats/project-stats.screen';
 import ProjectDetailsScreen from '../../features/discoverer/project-details/project-details.screen';
+import {HideTabBar} from '../../core/app.context';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
-const AccountStack = () => {
+const AccountStack = ({navigation, route}) => {
+  const {setStatus} = useContext(HideTabBar);
+  useEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+
+    if (routeName === 'ProjectImages') {
+      setStatus(true);
+    } else {
+      setStatus(false);
+    }
+  }, [navigation, route]);
   return (
     <Stack.Navigator
       screenOptions={{

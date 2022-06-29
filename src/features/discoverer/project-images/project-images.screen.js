@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   View,
@@ -10,6 +10,8 @@ import {
   Platform,
   Image,
 } from 'react-native';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
+
 import {SliderBox} from 'react-native-image-slider-box';
 import colors from '../../../theme/colors';
 
@@ -20,8 +22,22 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ProjectImagesScreen({route}) {
-  const navigation = useNavigation();
   const {images, position} = route.params;
+  const navigation = useNavigation();
+  const [activeSlide, setActiveSlide] = useState(position);
+
+  const _renderItem = ({item, index}) => {
+    return (
+      <Image
+        key={index}
+        source={{
+          uri: item.url,
+        }}
+        style={{width: width, height: width}}
+      />
+    );
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -31,11 +47,32 @@ export default function ProjectImagesScreen({route}) {
         <Text style={styles.back}>Retour</Text>
       </TouchableOpacity>
       <View style={styles.sliderContainer}>
-        <SliderBox
+        <Carousel
           firstItem={position}
-          images={images}
-          dotColor={colors.primary}
-          sliderBoxHeight={500}
+          data={images}
+          renderItem={_renderItem}
+          sliderWidth={width}
+          sliderHeight={width}
+          itemWidth={width}
+          layout={'default'}
+          onSnapToItem={index => setActiveSlide(index)}
+        />
+        <Pagination
+          dotsLength={images.length}
+          activeDotIndex={activeSlide}
+          containerStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}}
+          dotStyle={{
+            width: 15,
+            height: 10,
+            borderRadius: 5,
+            marginHorizontal: 0,
+            backgroundColor: 'rgba(255, 255, 255, 0.92)',
+          }}
+          inactiveDotStyle={{
+            width: 10,
+          }}
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
         />
       </View>
     </View>

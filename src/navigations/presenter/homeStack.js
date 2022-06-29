@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ProjectsScreen from '../../features/discoverer/projects.screen';
 import ProjectDetailsScreen from '../../features/discoverer/project-details/project-details.screen';
@@ -6,10 +6,23 @@ import ProjectCrowfundingScreen from '../../features/discoverer/project-crowdfun
 import ProjectStatsScreen from '../../features/presenter/project-stats/project-stats.screen';
 import ProjectImagesScreen from '../../features/discoverer/project-images/project-images.screen';
 import MessagesScreen from '../../features/chat/messages/messages.screen';
+import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import {HideTabBar} from '../../core/app.context';
 
 const Stack = createNativeStackNavigator();
 
-const HomeStack = () => {
+const HomeStack = ({navigation, route}) => {
+  const {setStatus} = useContext(HideTabBar);
+  useEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+
+    if (routeName === 'ProjectImages' || routeName === 'DiscussionMessages') {
+      setStatus(true);
+    } else {
+      setStatus(false);
+    }
+  }, [navigation, route]);
+
   return (
     <Stack.Navigator
       screenOptions={{

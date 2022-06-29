@@ -8,6 +8,7 @@ export async function sendPresenterRegistration(payload, token) {
     data: payload,
     headers: {
       Authorization: formatLocalToken(token),
+      'Content-Type': 'multipart/form-data',
     },
   });
 }
@@ -19,6 +20,7 @@ export async function sendProjectImage(payload, token) {
     data: payload,
     headers: {
       Authorization: formatLocalToken(token),
+      'Content-Type': 'multipart/form-data',
     },
   });
 }

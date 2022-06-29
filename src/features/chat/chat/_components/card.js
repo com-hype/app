@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {TouchableOpacity, StyleSheet} from 'react-native';
 import {View} from 'react-native-animatable';
 import {Paragraph, SubTitle, Title} from '../../../../components/atoms';
@@ -8,10 +8,12 @@ import 'moment/locale/fr';
 import moment from 'moment';
 import {useSelector} from 'react-redux';
 import {selectUser} from '../../../authentication/user.redux';
+import {HideTabBar} from '../../../../core/app.context';
 moment.locale('fr');
 export default function Card({discussion}) {
   const {navigate} = useNavigation();
   const user = useSelector(selectUser);
+  const {setStatus} = useContext(HideTabBar);
 
   const isNewmessage = discussion => {
     if (
@@ -25,9 +27,9 @@ export default function Card({discussion}) {
 
   return (
     <TouchableOpacity
-      onPress={() =>
-        navigate('DiscussionMessages', {discussionId: discussion.id})
-      }>
+      onPress={() => {
+        navigate('DiscussionMessages', {discussionId: discussion.id});
+      }}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           {isNewmessage(discussion) && (

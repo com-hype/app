@@ -19,7 +19,14 @@ import {fetchMessages, sendMessage} from '../chat.services';
 import MessageRight from './_components/messageRight';
 import MessageLeft from './_components/messageLeft';
 import {View} from 'react-native-animatable';
-import {BlackButton, Input, Title} from '../../../components/atoms';
+import {
+  BackButton,
+  BlackButton,
+  Input,
+  Paragraph,
+  SubTitle,
+  Title,
+} from '../../../components/atoms';
 
 let pusher = new Pusher('76af20e9e12a3ba167d2', {
   cluster: 'eu',
@@ -90,7 +97,9 @@ export default function MessagesScreen({route}) {
   return (
     <React.Fragment>
       <View style={styles.titleContainer}>
-        <Title style={styles.title}>{title}</Title>
+        <BackButton hiddenText />
+        <Title style={styles.title}>Messages</Title>
+        <SubTitle style={styles.subtitle}>{title}</SubTitle>
       </View>
       <ScrollView
         style={styles.container}
@@ -98,7 +107,15 @@ export default function MessagesScreen({route}) {
         onContentSizeChange={() =>
           scrollViewRef.current.scrollToEnd({animated: true})
         }>
-        {messages.map(message => getMessageType(message))}
+        {messages.length ? (
+          messages.map(message => getMessageType(message))
+        ) : (
+          <View style={styles.noMessages}>
+            <Paragraph style={styles.noMessagesText}>
+              Vous n'avez aucun message ☹️
+            </Paragraph>
+          </View>
+        )}
       </ScrollView>
       <View style={styles.inputContainer}>
         <Input
@@ -124,11 +141,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     borderBottomLeftRadius: 60,
     justifyContent: 'center',
-    height: Platform.OS === 'ios' ? 120 : 100,
+    height: Platform.OS === 'ios' ? 140 : 100,
+    paddingLeft: 80,
   },
   title: {
-    marginTop: Platform.OS === 'ios' ? 50 : 0,
+    marginTop: Platform.OS === 'ios' ? 30 : 0,
     color: '#fff',
+    textAlign: 'left',
+    marginBottom: 0,
+  },
+  subtitle: {
+    color: '#fff',
+    marginTop: 0,
+  },
+  noMessages: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: height - 300,
   },
   container: {
     marginTop: 20,
@@ -138,7 +168,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     backgroundColor: '#000',
     paddingHorizontal: 24,
-    // paddingBottom: Platform.OS === 'android' ? 0 : 10,
+    paddingBottom: Platform.OS === 'android' ? 0 : 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

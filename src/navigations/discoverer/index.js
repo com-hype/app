@@ -15,6 +15,7 @@ import AccountStack from './accountStack';
 import ListStack from './listStack';
 import {useSelector} from 'react-redux';
 import {selectUser} from '../../features/authentication/user.redux';
+import TabBar from '../_components/tabbar';
 
 const Tab = createBottomTabNavigator();
 let pusher = new Pusher('76af20e9e12a3ba167d2', {
@@ -38,33 +39,8 @@ const DiscovererNavigation = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({route}) => ({
-          tabBarShowLabel: false,
-          tabBarVisibilityAnimationConfig: {
-            visible: true,
-            animation: 'fadeIn',
-          },
-          tabBarIcon: ({focused}) => {
-            let iconName;
-            let size = 24;
-            let color = focused ? '#5F5BD9' : '#BEBEBE';
-            if (route.name === 'Accueil') {
-              iconName = focused ? 'brain' : 'brain';
-            } else if (route.name === 'Messages') {
-              iconName = focused ? 'comments' : 'comments';
-            } else if (route.name === 'Compte') {
-              iconName = focused ? 'user' : 'user';
-            } else if (route.name === 'Liste') {
-              iconName = focused ? 'bookmark' : 'bookmark';
-            }
-
-            return (
-              <FontAwesome name={iconName} size={size} color={color} solid />
-            );
-          },
-          showLabel: false,
-          headerShown: false,
-        })}>
+        tabBar={props => <TabBar {...props} />}
+        screenOptions={{headerShown: false}}>
         <Tab.Screen name="Accueil" component={HomeStack} />
         <Tab.Screen name="Liste" component={ListStack} />
         <Tab.Screen name="Messages" component={ChatStack} />

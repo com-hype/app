@@ -3,6 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View, Dimensions} from 'react-native';
 import {useSelector} from 'react-redux';
 import {
+  BackButton,
   BlackButton,
   Paragraph,
   SubTitle,
@@ -69,6 +70,7 @@ export default function ProjectDetailsScreen({navigation, route}) {
   return (
     <View style={styles.container}>
       <ScrollView>
+        <BackButton hiddenText />
         <Header
           author={project.author}
           image={project.images[0]}
@@ -83,7 +85,6 @@ export default function ProjectDetailsScreen({navigation, route}) {
           categories={project.categories}
         />
         <Library images={project.images} />
-
         <Features features={project.features} />
         <View style={styles.spacer} />
       </ScrollView>

@@ -1,22 +1,20 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import ChatScreen from '../../features/chat/chat/chat.screen';
 import MessagesScreen from '../../features/chat/messages/messages.screen';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
+import {HideTabBar} from '../../core/app.context';
 
 const Stack = createNativeStackNavigator();
 const ChatStack = ({navigation, route}) => {
-  React.useLayoutEffect(() => {
+  const {setStatus} = useContext(HideTabBar);
+  useEffect(() => {
     const routeName = getFocusedRouteNameFromRoute(route);
 
     if (routeName === 'DiscussionMessages') {
-      navigation.setOptions({
-        tabBarStyle: {display: 'none'},
-      });
+      setStatus(true);
     } else {
-      navigation.setOptions({
-        tabBarStyle: {display: 'flex'},
-      });
+      setStatus(false);
     }
   }, [navigation, route]);
 

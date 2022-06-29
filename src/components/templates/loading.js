@@ -4,14 +4,14 @@ import LottieView from 'lottie-react-native';
 
 const {height, width} = Dimensions.get('window');
 
-export default function Loading() {
+export default function Loading({title = 'Chargement'}) {
   return (
     <View style={styles.container}>
       {/* <ActivityIndicator size="large" color="#000" /> */}
       <LottieView
         autoPlay
         loop={true}
-        source={require('../../assets/anim/loader.json')}
+        source={require('../../assets/anim/loader3.json')}
         style={styles.animation}
       />
     </View>
@@ -29,5 +29,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
+  },
+  animation: {
+    width: 250,
   },
 });

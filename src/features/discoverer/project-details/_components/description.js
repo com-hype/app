@@ -49,6 +49,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 2,
     borderRadius: 10,
+    borderColor: '#000',
     textTransform: 'capitalize',
+    color: '#000',
   },
 });

@@ -30,6 +30,17 @@ Comhype is a crowdfunding mobile application allowing project leaders to get a f
 
    - `yarn android:dev`
 
+## 📥 Build
+
+For Android:
+
+Run `yarn android:release`.
+The app will be available in the `android/app/release/app-universal-release.apk` file
+
+<!-- For iOS:
+
+Run `yarn ios:dev`. The app will be available in the `ios/app-universal-release/app-universal-release.ipa` file -->
+
 ## 📐 Structure
 
 Thes project use atomic design to structure the code.

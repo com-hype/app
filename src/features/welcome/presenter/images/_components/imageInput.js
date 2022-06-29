@@ -27,7 +27,6 @@ export default function ImageInput({
 
       if (result.path) {
         onChange(result, index);
-        setPhoto(result);
       }
     } catch (error) {
       console.log(error);

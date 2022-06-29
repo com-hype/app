@@ -63,7 +63,9 @@ export default function ProjectImagesScreen({route}) {
 
     if (projectProps.avatar) {
       data.append('avatar', {
-        name: projectProps.avatar.filename,
+        name:
+          projectProps.avatar.filename ||
+          projectProps.avatar.path.split('/').pop(),
         type: projectProps.avatar.mime,
         uri: projectProps.avatar.path,
       });
@@ -80,7 +82,7 @@ export default function ProjectImagesScreen({route}) {
       if (images[key] !== null) {
         const imageData = new FormData();
         imageData.append('image', {
-          name: images[key].filename,
+          name: images[key].filename || images[key].path.split('/').pop(),
           type: images[key].mime,
           uri: images[key].path,
         });

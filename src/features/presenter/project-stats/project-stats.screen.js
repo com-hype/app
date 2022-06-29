@@ -7,11 +7,14 @@ import {
   Alert,
   Platform,
   PermissionsAndroid,
+  processColor,
 } from 'react-native';
 import Share from 'react-native-share';
 
 const {width} = Dimensions.get('window');
-import {LineChart} from 'react-native-chart-kit';
+// import {BarChart, LineChart} from 'react-native-chart-kit';
+import {BarChart} from 'react-native-charts-wrapper';
+
 import ViewShot, {captureRef} from 'react-native-view-shot';
 import {useSelector} from 'react-redux';
 import colors from '../../../theme/colors';
@@ -22,7 +25,9 @@ import Header from './_components/header';
 import Loading from '../../../components/templates/loading';
 import AnimatedLottieView from 'lottie-react-native';
 
+const CHARTCOLOR = processColor(colors.primary);
 export default function ProjectStatsScreen() {
+  const {width} = Dimensions.get('window');
   const token = useSelector(selectToken);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -67,12 +72,6 @@ export default function ProjectStatsScreen() {
         }
       }
 
-      // capture component
-      // const uri = await captureRef(viewRef, {
-      //   format: 'png',
-      //   quality: 0.8,
-      // });
-
       const uri = await viewRef.current.capture();
 
       // share
@@ -101,46 +100,23 @@ export default function ProjectStatsScreen() {
   }, []);
 
   const getLabels = () => {
-    if (type === 'week') {
-      const keys = Object.keys(stats.likes.byWeek);
-      const labels = keys
-        .map(key => {
-          return key.substring(0, 3);
-        })
-        .reverse();
-      return labels;
+    if (type === 'day') {
+      return stats.likes.day.labels;
+    } else if (type === 'week') {
+      return stats.likes.week.labels;
     } else if (type === 'month') {
-      const keys = Object.keys(stats.likes.byMonth);
-      const labels = keys
-        .map(key => {
-          return key;
-        })
-        .reverse();
-      return labels;
-    } else if (type === 'day') {
-      const keys = Object.keys(stats.likes.byHour);
-      const labels = keys
-        .map(key => {
-          return key + 'h';
-        })
-        .reverse();
-      return labels;
+      return stats.likes.month.labels;
     }
   };
 
   const getValues = () => {
-    const values = Object.values(stats.likes.byWeek)
-      .map(value => {
-        // console.log(value);
-      })
-      .reverse();
-    return [
-      Math.random() * (100 - 0) + 0,
-      Math.random() * (100 - 0) + 0,
-      Math.random() * (100 - 0) + 0,
-      Math.random() * (100 - 0) + 0,
-      Math.random() * (100 - 0) + 0,
-    ];
+    if (type === 'day') {
+      return stats.likes.day.data;
+    } else if (type === 'week') {
+      return stats.likes.week.data;
+    } else if (type === 'month') {
+      return stats.likes.month.data;
+    }
   };
 
   if (loading) return <Loading />;
@@ -162,38 +138,39 @@ export default function ProjectStatsScreen() {
           format: 'png',
           quality: 1,
         }}>
-        <LineChart
-          data={{
-            labels: getLabels(),
-            datasets: [
-              {
-                data: getValues(),
+        <View style={styles.chartContainer}>
+          <BarChart
+            style={styles.chart}
+            chartDescription={{text: ''}}
+            legend={{enabled: false}}
+            xAxis={{
+              drawGridLines: false,
+              position: 'BOTTOM',
+              valueFormatter: getLabels(),
+              granularityEnabled: true,
+              granularity: 1,
+            }}
+            yAxis={{
+              left: {
+                drawGridLines: false,
               },
-            ],
-          }}
-          width={width - 48}
-          height={220}
-          yAxisInterval={1} // optional, defaults to 1
-          chartConfig={{
-            backgroundColor: colors.primary,
-            backgroundGradientFrom: colors.primary,
-            backgroundGradientTo: colors.primaryDark,
-            decimalPlaces: 2, // optional, defaults to 2dp
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16,
-            },
-            propsForDots: {
-              r: '6',
-              strokeWidth: '2',
-              stroke: colors.primary,
-            },
-          }}
-          bezier
-          style={styles.chart}
-        />
-
+              right: {
+                enabled: false,
+              },
+            }}
+            data={{
+              dataSets: [
+                {
+                  values: getValues(),
+                  label: 'Zero line dataset',
+                  config: {
+                    colors: [CHARTCOLOR],
+                  },
+                },
+              ],
+            }}
+          />
+        </View>
         <View style={styles.card}>
           <View style={styles.cardTextContainer}>
             <Text style={styles.cardTitle}>Impressions totales</Text>
@@ -220,11 +197,11 @@ const styles = StyleSheet.create({
   },
   statsContainer: {
     width: width,
-    paddingLeft: 24,
     paddingBottom: 24,
   },
-  chart: {
-    marginVertical: 8,
+  chartContainer: {
+    backgroundColor: '#fff',
+    marginVertical: 20,
     borderRadius: 16,
     shadowColor: '#000',
     shadowOffset: {
@@ -233,12 +210,16 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    paddingTop: 16,
+    elevation: 2,
+    marginHorizontal: 24,
+    padding: 10,
+  },
+  chart: {
+    height: 220,
   },
   card: {
     width: width - 24,
     marginTop: 20,
-    marginLeft: -24,
     borderBottomRightRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: '#fff',

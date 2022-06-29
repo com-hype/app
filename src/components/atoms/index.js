@@ -5,6 +5,7 @@ export {Button} from './buttons';
 export {BlackButton} from './buttons/BlackButton';
 export {BlackBorderButton} from './buttons/BlackBorderButton';
 export {SelectButton} from './buttons/SelectButton';
+export {BackButton} from './buttons/BackButton';
 /**
  * Inputs component
  */
